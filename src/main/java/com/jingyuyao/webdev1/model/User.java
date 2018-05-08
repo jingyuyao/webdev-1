@@ -18,6 +18,10 @@ public class User {
 	private String role;
 	private LocalDate dateOfBirth;
 
+	public int getId() {
+		return id;
+	}
+
 	public String getUsername() {
 		return username;
 	}
