@@ -6,6 +6,10 @@
 	margin: 1rem 0;
 }
 
+#user-table-body, td {
+	vertical-align: middle !important;
+}
+
 #user-table-body, .btn {
 	margin-right: 1rem;
 }
