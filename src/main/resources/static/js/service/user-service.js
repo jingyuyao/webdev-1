@@ -13,8 +13,8 @@ UserServiceClient.prototype.registerUser = function(user, successCb, failCb) {
     data : self._userToJsonString(user)
   }).done(function(data) {
     successCb(self._jsonObjectToUser(data));
-  }).fail(function() {
-    failCb();
+  }).fail(function(xhr) {
+    failCb(xhr.responseJSON["message"]);
   });
 }
 
