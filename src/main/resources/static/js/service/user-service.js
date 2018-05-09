@@ -1,8 +1,10 @@
 function UserServiceClient() {
   this._apiBase = "/api";
-  this._baseUserUrl = this._apiBase + "/user";
+  this._userUrl = this._apiBase + "/user";
   this._registerUrl = this._apiBase + "/register";
   this._loginUrl = this._apiBase + "/login";
+  this._logoutUrl = this._apiBase + "/logout";
+  this._profileUrl = this._apiBase + "/profile";
 }
 
 UserServiceClient.prototype.registerUser = function(user, successCb, failCb) {
@@ -33,10 +35,46 @@ UserServiceClient.prototype.loginUser = function(user, successCb, failCb) {
   });
 }
 
+UserServiceClient.prototype.logoutUser = function(cb) {
+  var self = this;
+  $.ajax({
+    url : self._logoutUrl,
+    method : "POST",
+  }).done(function() {
+    cb();
+  });
+}
+
+UserServiceClient.prototype.userProfile = function(successCb, failCb) {
+  var self = this;
+  $.ajax({
+    url : self._profileUrl,
+    method : "GET",
+  }).done(function(data) {
+    successCb(self._jsonObjectToUser(data));
+  }).fail(function(xhr) {
+    failCb(xhr.responseJSON["message"]);
+  });
+}
+
+UserServiceClient.prototype.updateUserProfile = function(user, successCb, failCb) {
+  var self = this;
+  $.ajax({
+    url : self._profileUrl,
+    method : "PUT",
+    contentType : "application/json",
+    data : self._userToJsonString(user)
+  }).done(function(data) {
+    successCb(self._jsonObjectToUser(data));
+  }).fail(function(xhr) {
+    failCb(xhr.responseJSON["message"]);
+  });
+}
+
 UserServiceClient.prototype.createUser = function(user, cb) {
   var self = this;
   $.ajax({
-    url : self._baseUserUrl,
+    url : self._userUrl,
     method : "POST",
     contentType : "application/json",
     data : self._userToJsonString(user)
@@ -48,7 +86,7 @@ UserServiceClient.prototype.createUser = function(user, cb) {
 UserServiceClient.prototype.findAllUsers = function(cb) {
   var self = this;
   $.ajax({
-    url : this._baseUserUrl,
+    url : this._userUrl,
     method : "GET"
   }).done(function(data) {
     cb(data.map(self._jsonObjectToUser));
@@ -58,7 +96,7 @@ UserServiceClient.prototype.findAllUsers = function(cb) {
 UserServiceClient.prototype.findUserById = function(id, cb) {
   var self = this;
   $.ajax({
-    url : self._baseUserUrl + "/" + id,
+    url : self._userUrl + "/" + id,
     method : "GET"
   }).done(function(data) {
     cb(self._jsonObjectToUser(data));
@@ -68,7 +106,7 @@ UserServiceClient.prototype.findUserById = function(id, cb) {
 UserServiceClient.prototype.updateUser = function(id, user, cb) {
   var self = this;
   $.ajax({
-    url : self._baseUserUrl + "/" + id,
+    url : self._userUrl + "/" + id,
     method : "PUT",
     contentType : "application/json",
     data : self._userToJsonString(user)
@@ -80,7 +118,7 @@ UserServiceClient.prototype.updateUser = function(id, user, cb) {
 UserServiceClient.prototype.deleteUser = function(id, cb) {
   var self = this;
   $.ajax({
-    url : self._baseUserUrl + "/" + id,
+    url : self._userUrl + "/" + id,
     method : "DELETE"
   }).done(function() {
     cb();
