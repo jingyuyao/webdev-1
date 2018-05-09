@@ -54,8 +54,9 @@ public class UserService {
 	public void deleteUser(@PathVariable int id) {
 		if (userRepository.existsById(id)) {
 			userRepository.deleteById(id);
+		} else {
+			throw new UserNotFoundException(id);
 		}
-		throw new UserNotFoundException(id);
 	}
 
 	@ResponseStatus(HttpStatus.NOT_FOUND)

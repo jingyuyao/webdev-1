@@ -20,7 +20,8 @@
 		$tableBody.empty();
 
 		users.forEach(function(user) {
-			var $row = $("<tr></tr>").data("id", user.getId());
+			var userId = user.getId();
+			var $row = $("<tr></tr>").data("id", userId);
 			$row.append($("<td></td>").text(user.getUsername()));
 			$row.append($("<td></td>").text(user.getPassword()));
 			$row.append($("<td></td>").text(user.getFirstName()));
@@ -30,9 +31,15 @@
 			$row.append($("<td></td>").text(user.getRole()));
 			$row.append($("<td></td>").text(user.getDateOfBirth()));
 			var $trash = $("<button class='btn'></button>").append(
-					$("<i class='fa-2x fa fa-trash'></i>"));
+					$("<i class='fa-2x fa fa-trash'></i>")).click(function() {
+				userServiceClient.deleteUser(userId, findAllUsers);
+			});
 			var $edit = $("<button class='btn'></button>").append(
-					$("<i class='fa-2x fa fa-pencil'></i>"));
+					$("<i class='fa-2x fa fa-pencil'></i>")).click(function() {
+				showUserForm("Edit user", user, function() {
+					userServiceClient.updateUser(userId, getUserFromForm(), findAllUsers);
+				});
+			});
 			$row.append($("<td></td>").append($trash).append($edit));
 			$row.appendTo($tableBody);
 		});
