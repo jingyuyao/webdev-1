@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,7 +20,7 @@ public class UserService {
   @Autowired
   private UserRepository userRepository;
 
-  @PostMapping("/api/user/register")
+  @PostMapping("/api/register")
   public User register(@RequestBody User user, HttpSession session) {
     if (userRepository.findByUsername(user.getUsername()).isPresent()) {
       throw new UserExistsException();
@@ -38,7 +37,7 @@ public class UserService {
     return userRepository.save(user);
   }
 
-  @GetMapping("/api/user/all")
+  @GetMapping("/api/user")
   public Iterable<User> findAll() {
     return userRepository.findAll();
   }
@@ -46,13 +45,6 @@ public class UserService {
   @GetMapping("/api/user/{id}")
   public User findById(@PathVariable int id) {
     return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
-  }
-
-  @GetMapping("/api/user")
-  public User findByUsername(@RequestParam(value = "username") String username) {
-    return userRepository
-        .findByUsername(username)
-        .orElseThrow(() -> new UserNotFoundException(username));
   }
 
   @PutMapping("/api/user/{id}")
@@ -87,10 +79,6 @@ public class UserService {
 
     private UserNotFoundException(int id) {
       super("User id " + id + " does not exist");
-    }
-
-    private UserNotFoundException(String username) {
-      super("Username" + username + " does not exist");
     }
   }
 
