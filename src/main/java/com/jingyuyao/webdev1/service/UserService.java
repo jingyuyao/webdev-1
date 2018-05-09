@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserService {
 
+  private static final String USER_SESSION_ATTRIBUTE = "user";
+
   @Autowired
   private UserRepository userRepository;
 
@@ -28,7 +30,16 @@ public class UserService {
 
     User saved = userRepository.save(user);
     // Sets the saved version so it will have an ID.
-    session.setAttribute("user", saved);
+    session.setAttribute(USER_SESSION_ATTRIBUTE, saved);
+    return saved;
+  }
+
+  @PostMapping("/api/login")
+  public User login(@RequestBody User user, HttpSession session) {
+    User saved = userRepository
+        .findByUsernameAndPassword(user.getUsername(), user.getPassword())
+        .orElseThrow(InvalidCredentials::new);
+    session.setAttribute(USER_SESSION_ATTRIBUTE, saved);
     return saved;
   }
 
@@ -87,6 +98,14 @@ public class UserService {
 
     private UserExistsException() {
       super("User already exists");
+    }
+  }
+
+  @ResponseStatus(HttpStatus.UNAUTHORIZED)
+  private class InvalidCredentials extends RuntimeException {
+
+    private InvalidCredentials() {
+      super("Invalid credentials");
     }
   }
 }
