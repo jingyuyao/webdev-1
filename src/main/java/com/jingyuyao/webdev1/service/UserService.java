@@ -16,55 +16,57 @@ import com.jingyuyao.webdev1.repository.UserRepository;
 
 @RestController
 public class UserService {
-	@Autowired
-	private UserRepository userRepository;
 
-	@PostMapping("/api/user")
-	public User createUser(@RequestBody User user) {
-		return userRepository.save(user);
-	}
+  @Autowired
+  private UserRepository userRepository;
 
-	@GetMapping("/api/user")
-	public Iterable<User> findAllUsers() {
-		return userRepository.findAll();
-	}
+  @PostMapping("/api/user")
+  public User createUser(@RequestBody User user) {
+    return userRepository.save(user);
+  }
 
-	@GetMapping("/api/user/{id}")
-	public User findUserById(@PathVariable int id) {
-		return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
-	}
+  @GetMapping("/api/user")
+  public Iterable<User> findAllUsers() {
+    return userRepository.findAll();
+  }
 
-	@PutMapping("/api/user/{id}")
-	public User updateUser(@PathVariable int id, @RequestBody User updated) {
-		User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+  @GetMapping("/api/user/{id}")
+  public User findUserById(@PathVariable int id) {
+    return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+  }
 
-		user.setUsername(updated.getUsername());
-		user.setPassword(updated.getPassword());
-		user.setFirstName(updated.getFirstName());
-		user.setLastName(updated.getLastName());
-		user.setPhone(updated.getPhone());
-		user.setEmail(updated.getEmail());
-		user.setRole(updated.getRole());
-		user.setDateOfBirth(updated.getDateOfBirth());
+  @PutMapping("/api/user/{id}")
+  public User updateUser(@PathVariable int id, @RequestBody User updated) {
+    User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
 
-		return userRepository.save(user);
-	}
+    user.setUsername(updated.getUsername());
+    user.setPassword(updated.getPassword());
+    user.setFirstName(updated.getFirstName());
+    user.setLastName(updated.getLastName());
+    user.setPhone(updated.getPhone());
+    user.setEmail(updated.getEmail());
+    user.setRole(updated.getRole());
+    user.setDateOfBirth(updated.getDateOfBirth());
 
-	@DeleteMapping("/api/user/{id}")
-	public void deleteUser(@PathVariable int id) {
-		if (userRepository.existsById(id)) {
-			userRepository.deleteById(id);
-		} else {
-			throw new UserNotFoundException(id);
-		}
-	}
+    return userRepository.save(user);
+  }
 
-	@ResponseStatus(HttpStatus.NOT_FOUND)
-	private class UserNotFoundException extends RuntimeException {
-		private static final long serialVersionUID = 9186091192329568418L;
+  @DeleteMapping("/api/user/{id}")
+  public void deleteUser(@PathVariable int id) {
+    if (userRepository.existsById(id)) {
+      userRepository.deleteById(id);
+    } else {
+      throw new UserNotFoundException(id);
+    }
+  }
 
-		private UserNotFoundException(int id) {
-			super("User id " + id + " does not exist");
-		}
-	}
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  private class UserNotFoundException extends RuntimeException {
+
+    private static final long serialVersionUID = 9186091192329568418L;
+
+    private UserNotFoundException(int id) {
+      super("User id " + id + " does not exist");
+    }
+  }
 }

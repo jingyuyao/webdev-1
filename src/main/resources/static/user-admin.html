@@ -1,111 +1,105 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<title>User administration</title>
-<link
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
-	rel="stylesheet">
-<link
-	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-	rel="stylesheet">
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+  <meta charset="utf-8">
+  <title>User administration</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+        rel="stylesheet">
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 
-<link href="/css/user-admin.css" rel="stylesheet">
-<script src="/js/model/user-model.js"></script>
-<script src="/js/service/user-service.js"></script>
-<script src="/js/controller/user-admin-controller.js"></script>
+  <link href="/css/user-admin.css" rel="stylesheet">
+  <script src="/js/model/user-model.js"></script>
+  <script src="/js/service/user-service.js"></script>
+  <script src="/js/controller/user-admin-controller.js"></script>
 </head>
 <body>
-	<div class="container">
-		<h1 class="title">User Administration</h1>
-		<button id="create-user-btn" class="btn btn-success">Create
-			user</button>
-		<div class="table-responsive">
-			<table class="table">
-				<thead>
-					<tr>
-						<th>Username</th>
-						<th>Password</th>
-						<th>First name</th>
-						<th>Last name</th>
-						<th>Phone</th>
-						<th>Email</th>
-						<th>Role</th>
-						<th>Birth date</th>
-						<th>Actions</th>
-					</tr>
-				</thead>
-				<tbody id="user-table-body">
-				</tbody>
-			</table>
-		</div>
-	</div>
+<div class="container">
+  <h1 class="title">User Administration</h1>
+  <button id="create-user-btn" class="btn btn-success">Create user</button>
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Username</th>
+        <th>Password</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Birth date</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody id="user-table-body">
+      </tbody>
+    </table>
+  </div>
+</div>
 
-	<!-- Used to both create & modify a user. -->
-	<div class="modal fade" id="user-form" tabindex="-1" role="dialog">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="user-form-title"></h5>
-					<button class="close" data-dismiss="modal">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<form>
-						<div class="form-row">
-							<div class="form-group col-md-6">
-								<label for="user-form-username">Username</label> <input
-									id="user-form-username" class="form-control">
-							</div>
-							<div class="form-group col-md-6">
-								<label for="user-form-password">Password</label> <input
-									id="user-form-password" class="form-control" type="password">
-							</div>
-						</div>
-						<div class="form-row">
-							<div class="form-group col-md-6">
-								<label for="user-form-first-name">First name</label> <input
-									id="user-form-first-name" class="form-control">
-							</div>
-							<div class="form-group col-md-6">
-								<label for="user-form-last-name">Last name</label> <input
-									id="user-form-last-name" class="form-control">
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="user-form-phone">Phone</label> <input
-								id="user-form-phone" class="form-control">
-						</div>
-						<div class="form-group">
-							<label for="user-form-email">Email</label> <input
-								id="user-form-email" class="form-control" type="email">
-						</div>
-						<div class="form-group">
-							<label for="user-form-role">Role</label> <select
-								id="user-form-role" class="form-control">
-								<option value="" selected disabled hidden="true">Select
-									role...</option>
-								<option value="STUDENT">Student</option>
-								<option value="FACULTY">Faculty</option>
-							</select>
-						</div>
-						<div class="form-group">
-							<label for="user-form-date-of-birth">Date of birth</label> <input
-								id="user-form-date-of-birth" class="form-control"
-								placeholder="YYYY-MM-DD">
-						</div>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<button id="user-form-submit-btn" class="btn btn-primary">Submit</button>
-				</div>
-			</div>
-		</div>
-	</div>
+<!-- Used to both create & modify a user. -->
+<div class="modal fade" id="user-form" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="user-form-title"></h5>
+        <button class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="user-form-username">Username</label>
+              <input id="user-form-username" class="form-control">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="user-form-password">Password</label>
+              <input id="user-form-password" class="form-control" type="password">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="user-form-first-name">First name</label>
+              <input id="user-form-first-name" class="form-control">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="user-form-last-name">Last name</label>
+              <input id="user-form-last-name" class="form-control">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="user-form-phone">Phone</label>
+            <input id="user-form-phone" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="user-form-email">Email</label>
+            <input id="user-form-email" class="form-control" type="email">
+          </div>
+          <div class="form-group">
+            <label for="user-form-role">Role</label>
+            <select id="user-form-role" class="form-control">
+              <option value="" selected disabled hidden>Select role...</option>
+              <option value="STUDENT">Student</option>
+              <option value="FACULTY">Faculty</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="user-form-date-of-birth">Date of birth</label>
+            <input id="user-form-date-of-birth" class="form-control" placeholder="YYYY-MM-DD">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button id="user-form-submit-btn" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 </html>
