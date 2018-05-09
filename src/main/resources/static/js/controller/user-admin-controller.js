@@ -76,8 +76,7 @@
   function showUpdateUserForm(userId) {
     userServiceClient.findUserById(userId, function(user) {
       showUserForm("Edit user", user, function() {
-        userServiceClient.updateUser(userId, getUserFromForm(),
-            findAllUsers);
+        userServiceClient.updateUser(userId, getUserFromForm(), findAllUsers);
       });
     });
   }
@@ -112,7 +111,7 @@
   function getUserFromForm() {
     return new User(null /* id */, $userFormUsername.val(),
         $userFormPassword.val(), $userFormFirstName.val(),
-        $userFormLastName.val(), $userFormPhone.val(), $userFormEmail
-            .val(), $userFormRole.val(), $userFormDateOfBirth.val());
+        $userFormLastName.val(), $userFormPhone.val(), $userFormEmail.val(),
+        $userFormRole.val(), $userFormDateOfBirth.val());
   }
 })();

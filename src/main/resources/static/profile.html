@@ -18,7 +18,7 @@
 <body>
 <div class="container">
   <h1 class="title">Profile</h1>
-  <form id="profile-form">
+  <form>
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="profile-form-username">Username</label>
@@ -65,7 +65,10 @@
     </div>
     <div class="form-group">
       <button id="profile-form-submit-btn" type="button" class="btn btn-success">Update</button>
+      <button id="profile-form-logout-btn" type="button" class="btn btn-secondary">Logout</button>
     </div>
+    <div id="success-container" class="text-success"></div>
+    <div id="error-container" class="text-danger"></div>
   </form>
 </div>
 </body>
