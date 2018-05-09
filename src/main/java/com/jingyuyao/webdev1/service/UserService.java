@@ -38,7 +38,36 @@ public class UserService {
   public User login(@RequestBody User user, HttpSession session) {
     User saved = userRepository
         .findByUsernameAndPassword(user.getUsername(), user.getPassword())
-        .orElseThrow(InvalidCredentials::new);
+        .orElseThrow(() -> new UnauthorizedException("Invalid credentials"));
+    // Sets the saved version so it will have an ID.
+    session.setAttribute(USER_SESSION_ATTRIBUTE, saved);
+    return saved;
+  }
+
+  @PostMapping("/api/logout")
+  public void logout(HttpSession session) {
+    session.removeAttribute(USER_SESSION_ATTRIBUTE);
+  }
+
+  @GetMapping("/api/profile")
+  public User profile(HttpSession session) {
+    User user = (User) session.getAttribute(USER_SESSION_ATTRIBUTE);
+    if (user == null) {
+      throw new UnauthorizedException("Not logged in");
+    }
+    return user;
+  }
+
+  @PutMapping("/api/profile")
+  public User updateProfile(@RequestBody User updatedUser, HttpSession session) {
+    User sessionUser = (User) session.getAttribute(USER_SESSION_ATTRIBUTE);
+    if (sessionUser == null
+        || updatedUser.getUsername() == null
+        || !updatedUser.getUsername().equals(sessionUser.getUsername())) {
+      throw new UnauthorizedException("Cannot modify profile");
+    }
+    updateUser(sessionUser, updatedUser);
+    User saved = userRepository.save(sessionUser);
     session.setAttribute(USER_SESSION_ATTRIBUTE, saved);
     return saved;
   }
@@ -59,19 +88,12 @@ public class UserService {
   }
 
   @PutMapping("/api/user/{id}")
-  public User update(@PathVariable int id, @RequestBody User updated) {
-    User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+  public User update(@PathVariable int id, @RequestBody User updatedUser) {
+    User saved = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
 
-    user.setUsername(updated.getUsername());
-    user.setPassword(updated.getPassword());
-    user.setFirstName(updated.getFirstName());
-    user.setLastName(updated.getLastName());
-    user.setPhone(updated.getPhone());
-    user.setEmail(updated.getEmail());
-    user.setRole(updated.getRole());
-    user.setDateOfBirth(updated.getDateOfBirth());
+    updateUser(saved, updatedUser);
 
-    return userRepository.save(user);
+    return userRepository.save(saved);
   }
 
   @DeleteMapping("/api/user/{id}")
@@ -81,6 +103,21 @@ public class UserService {
     } else {
       throw new UserNotFoundException(id);
     }
+  }
+
+  /**
+   * @param oldUser must have an ID.
+   * @param updatedUser the new user object to pull data from.
+   */
+  private void updateUser(User oldUser, User updatedUser) {
+    oldUser.setUsername(updatedUser.getUsername());
+    oldUser.setPassword(updatedUser.getPassword());
+    oldUser.setFirstName(updatedUser.getFirstName());
+    oldUser.setLastName(updatedUser.getLastName());
+    oldUser.setPhone(updatedUser.getPhone());
+    oldUser.setEmail(updatedUser.getEmail());
+    oldUser.setRole(updatedUser.getRole());
+    oldUser.setDateOfBirth(updatedUser.getDateOfBirth());
   }
 
   @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -102,10 +139,10 @@ public class UserService {
   }
 
   @ResponseStatus(HttpStatus.UNAUTHORIZED)
-  private class InvalidCredentials extends RuntimeException {
+  private class UnauthorizedException extends RuntimeException {
 
-    private InvalidCredentials() {
-      super("Invalid credentials");
+    private UnauthorizedException(String msg) {
+      super(msg);
     }
   }
 }
