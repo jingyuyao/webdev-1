@@ -1,48 +1,86 @@
 (function() {
 	var userServiceClient = new UserServiceClient();
+	var $userTableBody;
+	var $createUserBtn;
+	var $userForm;
+	var $userFormTitle;
+	var $userFormUsername;
+	var $userFormPassword;
+	var $userFormFirstName;
+	var $userFormLastName;
+	var $userFormPhone;
+	var $userFormEmail;
+	var $userFormRole;
+	var $userFormDateOfBirth;
+	var $userFormSubmitBtn;
+
+	$(main);
 
 	function main() {
-		findAllUsers();
+		$userTableBody = $("#user-table-body");
+		$createUserBtn = $("#create-user-btn");
+		$userForm = $("#user-form")
+		$userFormTitle = $("#user-form-title");
+		$userFormUsername = $("#user-form-username");
+		$userFormPassword = $("#user-form-password");
+		$userFormFirstName = $("#user-form-first-name");
+		$userFormLastName = $("#user-form-last-name");
+		$userFormPhone = $("#user-form-phone");
+		$userFormEmail = $("#user-form-email");
+		$userFormRole = $("#user-form-role");
+		$userFormDateOfBirth = $("#user-form-date-of-birth");
+		$userFormSubmitBtn = $("#user-form-submit-btn");
 
-		$("#create-user-btn").click(showCreateUserForm);
+		$createUserBtn.click(showCreateUserForm);
+		findAllUsers();
 	}
 
 	function findAllUsers() {
-		var $tableBody = $("#user-table-body");
-		$tableBody.empty();
-		$tableBody.append($("<caption></caption>").text("Loading..."));
+		$userTableBody.empty();
+		$userTableBody.append($("<caption></caption>").text("Loading..."));
 
 		userServiceClient.findAllUsers(renderUsers);
 	}
 
 	function renderUsers(users) {
-		var $tableBody = $("#user-table-body");
-		$tableBody.empty();
+		$userTableBody.empty();
 
 		users.forEach(function(user) {
 			var userId = user.getId();
-			var $row = $("<tr></tr>").data("id", userId);
-			$row.append($("<td></td>").text(user.getUsername()));
-			$row.append($("<td></td>").text(user.getPassword()));
-			$row.append($("<td></td>").text(user.getFirstName()));
-			$row.append($("<td></td>").text(user.getLastName()));
-			$row.append($("<td></td>").text(user.getPhone()));
-			$row.append($("<td></td>").text(user.getEmail()));
-			$row.append($("<td></td>").text(user.getRole()));
-			$row.append($("<td></td>").text(user.getDateOfBirth()));
-			var $trash = $("<button class='btn'></button>").append(
-					$("<i class='fa-2x fa fa-trash'></i>")).click(function() {
-				userServiceClient.deleteUser(userId, findAllUsers);
+			var ntr = "<tr></tr>";
+			var ntd = "<td></td>";
+			var nbtn = "<button class='btn'></button>";
+			var ntrashIcon = "<i class='fa fa-2x fa-trash'></i>";
+			var neditIcon = "<i class='fa fa-2x fa-pencil'></i>";
+			var $row = $(ntr).data("id", userId);
+			$row.append($(ntd).text(user.getUsername()));
+			$row.append($(ntd).text(user.getPassword()));
+			$row.append($(ntd).text(user.getFirstName()));
+			$row.append($(ntd).text(user.getLastName()));
+			$row.append($(ntd).text(user.getPhone()));
+			$row.append($(ntd).text(user.getEmail()));
+			$row.append($(ntd).text(user.getRole()));
+			$row.append($(ntd).text(user.getDateOfBirth()));
+			var $trash = $(nbtn).append($(ntrashIcon)).click(function() {
+				deleteUser(userId);
 			});
-			var $edit = $("<button class='btn'></button>").append(
-					$("<i class='fa-2x fa fa-pencil'></i>")).click(function() {
-				showUserForm("Edit user", user, function() {
-					userServiceClient.updateUser(userId, getUserFromForm(), findAllUsers);
-				});
+			var $edit = $(nbtn).append($(neditIcon)).click(function() {
+				showUpdateUserForm(userId, user);
 			});
-			$row.append($("<td></td>").append($trash).append($edit));
-			$row.appendTo($tableBody);
+			$row.append($(ntd).append($trash).append($edit));
+			$row.appendTo($userTableBody);
 		});
+	}
+
+	function showUpdateUserForm(userId, user) {
+		showUserForm("Edit user", user, function() {
+			userServiceClient.updateUser(userId, getUserFromForm(),
+					findAllUsers);
+		});
+	}
+
+	function deleteUser(userId) {
+		userServiceClient.deleteUser(userId, findAllUsers);
 	}
 
 	function showCreateUserForm() {
@@ -52,29 +90,26 @@
 	}
 
 	function showUserForm(title, user, submitCb) {
-		$("#user-form-title").text(title);
-		$("#user-form-username").val(user.getUsername());
-		$("#user-form-password").val(user.getPassword());
-		$("#user-form-first-name").val(user.getFirstName());
-		$("#user-form-last-name").val(user.getLastName());
-		$("#user-form-phone").val(user.getPhone());
-		$("#user-form-email").val(user.getEmail());
-		$("#user-form-role").val(user.getRole());
-		$("#user-form-date-of-birth").val(user.getDateOfBirth());
-		$("#user-form-submit-btn").off("click").on("click", function() {
-			$("#user-form").modal("hide");
+		$userFormTitle.text(title);
+		$userFormUsername.val(user.getUsername());
+		$userFormPassword.val(user.getPassword());
+		$userFormFirstName.val(user.getFirstName());
+		$userFormLastName.val(user.getLastName());
+		$userFormPhone.val(user.getPhone());
+		$userFormEmail.val(user.getEmail());
+		$userFormRole.val(user.getRole());
+		$userFormDateOfBirth.val(user.getDateOfBirth());
+		$userFormSubmitBtn.off("click").on("click", function() {
+			$userForm.modal("hide");
 			submitCb();
 		});
-		$("#user-form").modal("show");
+		$userForm.modal("show");
 	}
 
 	function getUserFromForm() {
-		return new User(null /* id */, $("#user-form-username").val(), $(
-				"#user-form-password").val(), $("#user-form-first-name").val(),
-				$("#user-form-last-name").val(), $("#user-form-phone").val(),
-				$("#user-form-email").val(), $("#user-form-role").val(), $(
-						"#user-form-date-of-birth").val());
+		return new User(null /* id */, $userFormUsername.val(),
+				$userFormPassword.val(), $userFormFirstName.val(),
+				$userFormLastName.val(), $userFormPhone.val(), $userFormEmail
+						.val(), $userFormRole.val(), $userFormDateOfBirth.val());
 	}
-
-	$(main);
 })();
