@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <title>User administration</title>
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
         rel="stylesheet">
@@ -18,7 +18,7 @@
 <body>
 <div class="container">
   <h1 class="title">User Administration</h1>
-  <button id="create-user-btn" class="btn btn-success">Create user</button>
+  <button id="create-user-btn" type="button" class="btn btn-success">Create user</button>
   <div class="table-responsive">
     <table class="table">
       <thead>
@@ -46,7 +46,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="user-form-title"></h5>
-        <button class="close" data-dismiss="modal">
+        <button type="button" class="close" data-dismiss="modal">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -95,8 +95,8 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button id="user-form-submit-btn" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button id="user-form-submit-btn" type="button" class="btn btn-primary">Submit</button>
       </div>
     </div>
   </div>

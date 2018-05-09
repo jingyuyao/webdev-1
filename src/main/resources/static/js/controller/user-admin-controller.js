@@ -49,7 +49,7 @@
       var userId = user.getId();
       var nTr = "<tr></tr>";
       var nTd = "<td></td>";
-      var nBtn = "<button class='btn'></button>";
+      var nBtn = "<button type='button' class='btn'></button>";
       var nTrashIcon = "<i class='fa fa-2x fa-trash'></i>";
       var nEditIcon = "<i class='fa fa-2x fa-pencil'></i>";
       var $row = $(nTr);
