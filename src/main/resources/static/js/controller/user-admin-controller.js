@@ -52,7 +52,7 @@
 			var nbtn = "<button class='btn'></button>";
 			var ntrashIcon = "<i class='fa fa-2x fa-trash'></i>";
 			var neditIcon = "<i class='fa fa-2x fa-pencil'></i>";
-			var $row = $(ntr).data("id", userId);
+			var $row = $(ntr);
 			$row.append($(ntd).text(user.getUsername()));
 			$row.append($(ntd).text(user.getPassword()));
 			$row.append($(ntd).text(user.getFirstName()));
@@ -65,17 +65,19 @@
 				deleteUser(userId);
 			});
 			var $edit = $(nbtn).append($(neditIcon)).click(function() {
-				showUpdateUserForm(userId, user);
+				showUpdateUserForm(userId);
 			});
 			$row.append($(ntd).append($trash).append($edit));
 			$row.appendTo($userTableBody);
 		});
 	}
 
-	function showUpdateUserForm(userId, user) {
-		showUserForm("Edit user", user, function() {
-			userServiceClient.updateUser(userId, getUserFromForm(),
-					findAllUsers);
+	function showUpdateUserForm(userId) {
+		userServiceClient.findUserById(userId, function(user) {
+			showUserForm("Edit user", user, function() {
+				userServiceClient.updateUser(userId, getUserFromForm(),
+						findAllUsers);
+			});
 		});
 	}
 
