@@ -17,7 +17,7 @@ UserServiceClient.prototype.createUser = function(user, cb) {
 UserServiceClient.prototype.findAllUsers = function(cb) {
   var self = this;
   $.ajax({
-    url : this._baseUrl,
+    url : this._baseUrl + "/all",
     method : "GET"
   }).done(function(data) {
     cb(data.map(self._jsonObjectToUser));
