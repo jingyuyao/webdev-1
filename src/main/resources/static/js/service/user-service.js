@@ -3,46 +3,51 @@ function UserServiceClient() {
 }
 
 UserServiceClient.prototype.createUser = function(user, cb) {
+	var self = this;
 	$.ajax({
-		url : this._baseUrl,
+		url : self._baseUrl,
 		method : "POST",
-		data : this._userToJsonString(user)
+		data : self._userToJsonString(user)
 	}).done(function(data) {
-		cb(this._jsonObjectToUser(data));
+		cb(self._jsonObjectToUser(data));
 	});
 }
 
 UserServiceClient.prototype.findAllUsers = function(cb) {
+	var self = this;
 	$.ajax({
 		url : this._baseUrl,
 		method : "GET"
 	}).done(function(data) {
-		cb(data.map(this._jsonObjectToUser));
+		cb(data.map(self._jsonObjectToUser));
 	});
 }
 
 UserServiceClient.prototype.findUserById = function(id, cb) {
+	var self = this;
 	$.ajax({
-		url : this._baseUrl + "/" + id,
+		url : self._baseUrl + "/" + id,
 		method : "GET"
 	}).done(function(data) {
-		cb(this._jsonObjectToUser(data));
+		cb(self._jsonObjectToUser(data));
 	});
 }
 
 UserServiceClient.prototype.updateUser = function(id, user, cb) {
+	var self = this;
 	$.ajax({
-		url : this._baseUrl + "/" + id,
+		url : self._baseUrl + "/" + id,
 		method : "PUT",
-		data: this._userToJsonString(user)
+		data: self._userToJsonString(user)
 	}).done(function(data) {
-		cb(this._jsonObjectToUser(data));
+		cb(self._jsonObjectToUser(data));
 	});
 }
 
 UserServiceClient.prototype.deleteUser = function(id, cb) {
+	var self = this;
 	$.ajax({
-		url : this._baseUrl + "/" + id,
+		url : self._baseUrl + "/" + id,
 		method : "DELETE"
 	}).done(function() {
 		cb();
