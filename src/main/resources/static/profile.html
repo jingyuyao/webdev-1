@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Profile</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+        rel="stylesheet">
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
+  <link href="/css/profile.css" rel="stylesheet">
+  <script src="/js/model/user-model.js"></script>
+  <script src="/js/service/user-service.js"></script>
+  <script src="/js/controller/profile-controller.js"></script>
+</head>
+<body>
+<div class="container">
+  <h1 class="title">Profile</h1>
+  <form id="profile-form">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="profile-form-username">Username</label>
+        <input id="profile-form-username" class="form-control" disabled>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="profile-form-password">Password</label>
+        <input id="profile-form-password" class="form-control" type="password">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="profile-form-first-name">First name</label>
+        <input id="profile-form-first-name" class="form-control">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="profile-form-last-name">Last name</label>
+        <input id="profile-form-last-name" class="form-control">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="profile-form-phone">Phone</label>
+        <input id="profile-form-phone" class="form-control">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="profile-form-email">Email</label>
+        <input id="profile-form-email" class="form-control" type="email">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="profile-form-role">Role</label>
+        <select id="profile-form-role" class="form-control">
+          <option value="" selected disabled hidden>Select role...</option>
+          <option value="STUDENT">Student</option>
+          <option value="FACULTY">Faculty</option>
+        </select>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="profile-form-date-of-birth">Date of birth</label>
+        <input id="profile-form-date-of-birth" class="form-control" placeholder="YYYY-MM-DD">
+      </div>
+    </div>
+    <div class="form-group">
+      <button id="profile-form-submit-btn" type="button" class="btn btn-success">Update</button>
+    </div>
+  </form>
+</div>
+</body>
+</html>
