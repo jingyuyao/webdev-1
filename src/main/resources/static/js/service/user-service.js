@@ -7,6 +7,7 @@ UserServiceClient.prototype.createUser = function(user, cb) {
 	$.ajax({
 		url : self._baseUrl,
 		method : "POST",
+		contentType : "application/json",
 		data : self._userToJsonString(user)
 	}).done(function(data) {
 		cb(self._jsonObjectToUser(data));
@@ -38,7 +39,8 @@ UserServiceClient.prototype.updateUser = function(id, user, cb) {
 	$.ajax({
 		url : self._baseUrl + "/" + id,
 		method : "PUT",
-		data: self._userToJsonString(user)
+		contentType : "application/json",
+		data : self._userToJsonString(user)
 	}).done(function(data) {
 		cb(self._jsonObjectToUser(data));
 	});
@@ -55,9 +57,9 @@ UserServiceClient.prototype.deleteUser = function(id, cb) {
 }
 
 UserServiceClient.prototype._userToJsonString = function(user) {
-	// Does not serialize the id back to service.
+	// Does not serialize ID.
 	return JSON.stringify({
-		username : user.getUserName(),
+		username : user.getUsername(),
 		password : user.getPassword(),
 		firstName : user.getFirstName(),
 		lastName : user.getLastName(),
