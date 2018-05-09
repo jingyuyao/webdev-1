@@ -68,7 +68,7 @@
         showUpdateUserForm(userId);
       });
       // Flex display to prevent wrapping.
-      $row.append($(nTd).addClass("actions").append($trash).append($edit));
+      $row.append($(nTd).addClass("d-flex").append($trash).append($edit));
       $row.appendTo($userTableBody);
     });
   }
