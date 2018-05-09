@@ -2,12 +2,27 @@ function UserServiceClient() {
   this._apiBase = "/api";
   this._baseUserUrl = this._apiBase + "/user";
   this._registerUrl = this._apiBase + "/register";
+  this._loginUrl = this._apiBase + "/login";
 }
 
 UserServiceClient.prototype.registerUser = function(user, successCb, failCb) {
   var self = this;
   $.ajax({
     url : self._registerUrl,
+    method : "POST",
+    contentType : "application/json",
+    data : self._userToJsonString(user)
+  }).done(function(data) {
+    successCb(self._jsonObjectToUser(data));
+  }).fail(function(xhr) {
+    failCb(xhr.responseJSON["message"]);
+  });
+}
+
+UserServiceClient.prototype.loginUser = function(user, successCb, failCb) {
+  var self = this;
+  $.ajax({
+    url : self._loginUrl,
     method : "POST",
     contentType : "application/json",
     data : self._userToJsonString(user)
