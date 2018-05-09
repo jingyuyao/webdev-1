@@ -29,7 +29,7 @@
       var user = new User(null /* id */, username, password);
       userServiceClient.registerUser(user, registerSuccess, registerFail);
     } else {
-      $errorContainer.text("The passwords you entered does not match.")
+      $errorContainer.text("The passwords you entered do not match.")
     }
   }
 
