@@ -47,27 +47,28 @@
 
     users.forEach(function(user) {
       var userId = user.getId();
-      var ntr = "<tr></tr>";
-      var ntd = "<td></td>";
-      var nbtn = "<button class='btn'></button>";
-      var ntrashIcon = "<i class='fa fa-2x fa-trash'></i>";
-      var neditIcon = "<i class='fa fa-2x fa-pencil'></i>";
-      var $row = $(ntr);
-      $row.append($(ntd).text(user.getUsername()));
-      $row.append($(ntd).text(user.getPassword()));
-      $row.append($(ntd).text(user.getFirstName()));
-      $row.append($(ntd).text(user.getLastName()));
-      $row.append($(ntd).text(user.getPhone()));
-      $row.append($(ntd).text(user.getEmail()));
-      $row.append($(ntd).text(user.getRole()));
-      $row.append($(ntd).text(user.getDateOfBirth()));
-      var $trash = $(nbtn).append($(ntrashIcon)).click(function() {
+      var nTr = "<tr></tr>";
+      var nTd = "<td></td>";
+      var nBtn = "<button class='btn'></button>";
+      var nTrashIcon = "<i class='fa fa-2x fa-trash'></i>";
+      var nEditIcon = "<i class='fa fa-2x fa-pencil'></i>";
+      var $row = $(nTr);
+      $row.append($(nTd).text(user.getUsername()));
+      $row.append($(nTd).text(user.getPassword()));
+      $row.append($(nTd).text(user.getFirstName()));
+      $row.append($(nTd).text(user.getLastName()));
+      $row.append($(nTd).text(user.getPhone()));
+      $row.append($(nTd).text(user.getEmail()));
+      $row.append($(nTd).text(user.getRole()));
+      $row.append($(nTd).text(user.getDateOfBirth()));
+      var $trash = $(nBtn).addClass("btn-danger").append($(nTrashIcon)).click(function() {
         deleteUser(userId);
       });
-      var $edit = $(nbtn).append($(neditIcon)).click(function() {
+      var $edit = $(nBtn).addClass("btn-primary").append($(nEditIcon)).click(function() {
         showUpdateUserForm(userId);
       });
-      $row.append($(ntd).append($trash).append($edit));
+      // Flex display to prevent wrapping.
+      $row.append($(nTd).addClass("actions").append($trash).append($edit));
       $row.appendTo($userTableBody);
     });
   }
