@@ -1,11 +1,27 @@
 function UserServiceClient() {
-  this._baseUrl = "/api/user";
+  this._apiBase = "/api";
+  this._baseUserUrl = this._apiBase + "/user";
+  this._registerUrl = this._apiBase + "/register";
+}
+
+UserServiceClient.prototype.registerUser = function(user, successCb, failCb) {
+  var self = this;
+  $.ajax({
+    url : self._registerUrl,
+    method : "POST",
+    contentType : "application/json",
+    data : self._userToJsonString(user)
+  }).done(function(data) {
+    successCb(self._jsonObjectToUser(data));
+  }).fail(function() {
+    failCb();
+  });
 }
 
 UserServiceClient.prototype.createUser = function(user, cb) {
   var self = this;
   $.ajax({
-    url : self._baseUrl,
+    url : self._baseUserUrl,
     method : "POST",
     contentType : "application/json",
     data : self._userToJsonString(user)
@@ -17,7 +33,7 @@ UserServiceClient.prototype.createUser = function(user, cb) {
 UserServiceClient.prototype.findAllUsers = function(cb) {
   var self = this;
   $.ajax({
-    url : this._baseUrl,
+    url : this._baseUserUrl,
     method : "GET"
   }).done(function(data) {
     cb(data.map(self._jsonObjectToUser));
@@ -27,7 +43,7 @@ UserServiceClient.prototype.findAllUsers = function(cb) {
 UserServiceClient.prototype.findUserById = function(id, cb) {
   var self = this;
   $.ajax({
-    url : self._baseUrl + "/" + id,
+    url : self._baseUserUrl + "/" + id,
     method : "GET"
   }).done(function(data) {
     cb(self._jsonObjectToUser(data));
@@ -37,7 +53,7 @@ UserServiceClient.prototype.findUserById = function(id, cb) {
 UserServiceClient.prototype.updateUser = function(id, user, cb) {
   var self = this;
   $.ajax({
-    url : self._baseUrl + "/" + id,
+    url : self._baseUserUrl + "/" + id,
     method : "PUT",
     contentType : "application/json",
     data : self._userToJsonString(user)
@@ -49,7 +65,7 @@ UserServiceClient.prototype.updateUser = function(id, user, cb) {
 UserServiceClient.prototype.deleteUser = function(id, cb) {
   var self = this;
   $.ajax({
-    url : self._baseUrl + "/" + id,
+    url : self._baseUserUrl + "/" + id,
     method : "DELETE"
   }).done(function() {
     cb();
