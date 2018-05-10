@@ -61,19 +61,27 @@
       $row.append($(nTd).text(user.getEmail()));
       $row.append($(nTd).text(user.getRole()));
       $row.append($(nTd).text(user.getDateOfBirth()));
-      var $trash = $(nBtn).addClass("btn-danger").append($(nTrashIcon)).click(function() {
-        deleteUser(userId);
-      });
-      var $edit = $(nBtn).addClass("btn-primary").append($(nEditIcon)).click(function() {
-        showUpdateUserForm(userId);
-      });
+      var $trash =
+        $(nBtn)
+          .addClass("btn-danger")
+          .data("userId", userId)
+          .append($(nTrashIcon))
+          .click(deleteUser);
+      var $edit =
+        $(nBtn)
+          .addClass("btn-primary")
+          .data("userId", userId)
+          .append($(nEditIcon))
+          .click(showUpdateUserForm);
       // Flex display to prevent wrapping.
       $row.append($(nTd).addClass("d-flex").append($trash).append($edit));
       $row.appendTo($userTableBody);
     });
   }
 
-  function showUpdateUserForm(userId) {
+  function showUpdateUserForm(event) {
+    var btn = $(event.currentTarget);
+    var userId = btn.data("userId");
     userServiceClient.findUserById(userId, function(user) {
       showUserForm("Edit user", user, function() {
         userServiceClient.updateUser(userId, getUserFromForm(), findAllUsers);
@@ -81,7 +89,9 @@
     });
   }
 
-  function deleteUser(userId) {
+  function deleteUser(event) {
+    var btn = $(event.currentTarget);
+    var userId = btn.data("userId");
     userServiceClient.deleteUser(userId, findAllUsers);
   }
 
