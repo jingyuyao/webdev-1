@@ -49,7 +49,7 @@
   }
 
   function redirectToLogin() {
-    window.location.href = "/login.html";
+    window.location.href = "/jquery/components/login/login.template.client.html";
   }
 
   function logout() {

@@ -27,7 +27,7 @@
   }
 
   function loginSuccess() {
-    window.location.href = "/profile.html";
+    window.location.href = "/jquery/components/profile/profile.template.client.html";
   }
 
   function loginFail(msg) {

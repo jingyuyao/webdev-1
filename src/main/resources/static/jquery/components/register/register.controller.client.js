@@ -34,7 +34,7 @@
   }
 
   function registerSuccess() {
-    window.location.href = "/profile.html";
+    window.location.href = "/jquery/components/profile/profile.template.client.html";
   }
 
   function registerFail(msg) {

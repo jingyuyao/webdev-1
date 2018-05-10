@@ -12,10 +12,10 @@
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 
-  <link href="/css/login.css" rel="stylesheet">
-  <script src="/js/model/user-model.js"></script>
-  <script src="/js/service/user-service.js"></script>
-  <script src="/js/controller/login-controller.js"></script>
+  <link href="/jquery/components/login/login.style.client.css" rel="stylesheet">
+  <script src="/jquery/model/user.model.client.js"></script>
+  <script src="/jquery/service/user.service.client.js"></script>
+  <script src="/jquery/components/login/login.controller.client.js"></script>
 </head>
 <body>
 <div class="container">
@@ -31,7 +31,7 @@
     </div>
     <div class="form-group">
       <button id="login-form-submit-btn" type="button" class="btn btn-success">Login</button>
-      <a class="btn btn-secondary" href="/register.html">Register</a>
+      <a class="btn btn-secondary" href="/jquery/components/register/register.template.client.html">Register</a>
     </div>
     <div id="error-container" class="text-danger"></div>
   </form>
