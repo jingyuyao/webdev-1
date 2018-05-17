@@ -1,10 +1,14 @@
 package com.jingyuyao.webdev1.model;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Course {
@@ -15,6 +19,8 @@ public class Course {
   private String title;
   private Instant created;
   private Instant modified;
+  @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+  private List<Module> modules = new ArrayList<>();
 
   public int getId() {
     return id;
@@ -42,5 +48,9 @@ public class Course {
 
   public void setModified(Instant modified) {
     this.modified = modified;
+  }
+
+  public List<Module> getModules() {
+    return modules;
   }
 }
