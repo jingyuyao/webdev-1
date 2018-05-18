@@ -21,7 +21,7 @@ public class Module {
   @ManyToOne
   @JsonIgnore
   private Course course;
-  @OneToMany(mappedBy = "module", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "module", cascade = CascadeType.REMOVE)
   private List<Lesson> lessons = new ArrayList<>();
 
   public int getId() {

@@ -19,7 +19,7 @@ public class Course {
   private String title;
   private Instant created;
   private Instant modified;
-  @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "course", cascade = CascadeType.REMOVE)
   private List<Module> modules = new ArrayList<>();
 
   public int getId() {

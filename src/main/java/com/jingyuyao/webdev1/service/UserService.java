@@ -4,14 +4,12 @@ import com.jingyuyao.webdev1.model.User;
 import com.jingyuyao.webdev1.repository.UserRepository;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -19,13 +17,17 @@ public class UserService {
 
   private static final String USER_SESSION_ATTRIBUTE = "user";
 
+  private final UserRepository userRepository;
+
   @Autowired
-  private UserRepository userRepository;
+  UserService(UserRepository userRepository) {
+    this.userRepository = userRepository;
+  }
 
   @PostMapping("/api/register")
   public User register(@RequestBody User user, HttpSession session) {
     if (userRepository.findByUsername(user.getUsername()).isPresent()) {
-      throw new UserExistsException();
+      throw new ExistsException("User");
     }
 
     User saved = userRepository.save(user);
@@ -84,12 +86,12 @@ public class UserService {
 
   @GetMapping("/api/user/{id}")
   public User findById(@PathVariable int id) {
-    return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+    return userRepository.findById(id).orElseThrow(() -> new NotFoundException("User", id));
   }
 
   @PutMapping("/api/user/{id}")
   public User update(@PathVariable int id, @RequestBody User updatedUser) {
-    User saved = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+    User saved = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User", id));
 
     updateUser(saved, updatedUser);
 
@@ -101,7 +103,7 @@ public class UserService {
     if (userRepository.existsById(id)) {
       userRepository.deleteById(id);
     } else {
-      throw new UserNotFoundException(id);
+      throw new NotFoundException("User", id);
     }
   }
 
@@ -118,31 +120,5 @@ public class UserService {
     oldUser.setEmail(updatedUser.getEmail());
     oldUser.setRole(updatedUser.getRole());
     oldUser.setDateOfBirth(updatedUser.getDateOfBirth());
-  }
-
-  @ResponseStatus(HttpStatus.NOT_FOUND)
-  private class UserNotFoundException extends RuntimeException {
-
-    private static final long serialVersionUID = 9186091192329568418L;
-
-    private UserNotFoundException(int id) {
-      super("User id " + id + " does not exist");
-    }
-  }
-
-  @ResponseStatus(HttpStatus.FORBIDDEN)
-  private class UserExistsException extends RuntimeException {
-
-    private UserExistsException() {
-      super("User already exists");
-    }
-  }
-
-  @ResponseStatus(HttpStatus.UNAUTHORIZED)
-  private class UnauthorizedException extends RuntimeException {
-
-    private UnauthorizedException(String msg) {
-      super(msg);
-    }
   }
 }
