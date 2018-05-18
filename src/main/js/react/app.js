@@ -1,8 +1,9 @@
 import "babel-polyfill";
 import React from "react";
 import ReactDOM from "react-dom";
+import CourseManager from "./container/CourseManager";
 
 ReactDOM.render(
-  <h1>hello-world</h1>,
+  <CourseManager/>,
   document.getElementById("app-root")
 );
