@@ -5,7 +5,7 @@
   "repository": {
     "type": "git",
     "url": "git@github.com:jingyuyao/webdev-1.git"
-  },https://github.com/search?q=juannu&type=Users
+  },
   "license": "UNLICENSED",
   "dependencies": {
     "babel-polyfill": "^6.26.0",
