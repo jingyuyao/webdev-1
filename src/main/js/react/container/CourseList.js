@@ -40,13 +40,15 @@ class CourseList extends React.Component {
 
     return (
       <div>
-        <h2>Course list</h2>
+        <h2>Course List</h2>
         <table>
           <thead>
-            <th>Title</th>
-            <th>Created</th>
-            <th>Modified</th>
-            <th>Actions</th>
+            <tr>
+              <th>Title</th>
+              <th>Created</th>
+              <th>Modified</th>
+              <th>Actions</th>
+            </tr>
           </thead>
           <tbody>
             {courseRows}

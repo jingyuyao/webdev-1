@@ -1,15 +1,11 @@
 import React from "react";
+import {Link} from "react-router-dom";
 
 class CourseRow extends React.Component {
   constructor(props) {
     super(props);
 
-    this.edit = this.edit.bind(this);
     this.remove = this.remove.bind(this);
-  }
-
-  edit() {
-
   }
 
   remove() {
@@ -24,7 +20,7 @@ class CourseRow extends React.Component {
         <td>{course.created}</td>
         <td>{course.modified}</td>
         <td>
-          <button onClick={this.edit}>Edit</button>
+          <Link to={"/course/" + course.id}>Edit</Link>
           <button onClick={this.remove}>Remove</button>
         </td>
       </tr>
