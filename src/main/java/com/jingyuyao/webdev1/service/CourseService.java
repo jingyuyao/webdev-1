@@ -1,6 +1,7 @@
 package com.jingyuyao.webdev1.service;
 
 import com.jingyuyao.webdev1.model.Course;
+import com.jingyuyao.webdev1.model.Module;
 import com.jingyuyao.webdev1.repository.CourseRepository;
 import java.time.Instant;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,15 @@ public class CourseService {
   @GetMapping("/api/course/{id}")
   public Course findById(@PathVariable int id) {
     return courseRepository.findById(id).orElseThrow(() -> new NotFoundException("Course", id));
+  }
+
+  @GetMapping("/api/course/{id}/modules")
+  public Iterable<Module> findModulesById(@PathVariable int id) {
+    return
+        courseRepository
+            .findById(id)
+            .orElseThrow(() -> new NotFoundException("Course", id))
+            .getModules();
   }
 
   @PutMapping("/api/course/{id}")

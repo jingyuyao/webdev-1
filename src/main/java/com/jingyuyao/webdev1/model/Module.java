@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,9 +19,10 @@ public class Module {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
   private String title;
-  @ManyToOne
   @JsonIgnore
+  @ManyToOne(fetch = FetchType.LAZY)
   private Course course;
+  @JsonIgnore
   @OneToMany(mappedBy = "module", cascade = CascadeType.REMOVE)
   private List<Lesson> lessons = new ArrayList<>();
 

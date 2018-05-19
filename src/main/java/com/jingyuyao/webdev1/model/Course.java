@@ -1,5 +1,6 @@
 package com.jingyuyao.webdev1.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ public class Course {
   private String title;
   private Instant created;
   private Instant modified;
+  @JsonIgnore
   @OneToMany(mappedBy = "course", cascade = CascadeType.REMOVE)
   private List<Module> modules = new ArrayList<>();
 

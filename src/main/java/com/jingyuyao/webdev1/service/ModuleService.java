@@ -1,5 +1,6 @@
 package com.jingyuyao.webdev1.service;
 
+import com.jingyuyao.webdev1.model.Lesson;
 import com.jingyuyao.webdev1.model.Module;
 import com.jingyuyao.webdev1.repository.ModuleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,15 @@ public class ModuleService {
   @GetMapping("/api/module/{id}")
   public Module findById(@PathVariable int id) {
     return moduleRepository.findById(id).orElseThrow(() -> new NotFoundException("Module", id));
+  }
+
+  @GetMapping("/api/module/{id}/lessons")
+  public Iterable<Lesson> findLessonsById(@PathVariable int id) {
+    return
+        moduleRepository
+            .findById(id)
+            .orElseThrow(() -> new NotFoundException("Module", id))
+            .getLessons();
   }
 
   @PutMapping("/api/module/{id}")
