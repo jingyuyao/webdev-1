@@ -10,7 +10,7 @@ class CourseManager extends React.Component {
         <div>
           <Route exact path="/" render={() => <Redirect to="/courses"/>}/>
           <Route path="/courses" component={CourseList}/>
-          <Route path="/course/:id" component={CourseEditor}/>
+          <Route path="/course/:courseId" component={CourseEditor}/>
         </div>
       </Router>
     );

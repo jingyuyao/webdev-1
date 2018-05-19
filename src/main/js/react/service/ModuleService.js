@@ -22,7 +22,7 @@ class ModuleService {
     return fetch(this._baseUrl + "/" + id).then(response => response.json());
   }
 
-  findByCourseId(id) {
+  findAllByCourseId(id) {
     return fetch("/api/course/" + id + "/modules").then(response => response.json());
   }
 
