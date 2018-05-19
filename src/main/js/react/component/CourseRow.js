@@ -16,11 +16,12 @@ class CourseRow extends React.Component {
     const course = this.props.course;
     return (
       <tr>
-        <td>{course.title}</td>
+        <td>
+          <Link to={"/course/" + course.id}>{course.title}</Link>
+        </td>
         <td>{course.created}</td>
         <td>{course.modified}</td>
         <td>
-          <Link to={"/course/" + course.id}>Edit</Link>
           <button onClick={this.remove}>Remove</button>
         </td>
       </tr>
