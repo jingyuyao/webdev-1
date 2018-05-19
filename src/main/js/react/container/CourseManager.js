@@ -1,13 +1,17 @@
 import React from "react";
-import courseService from "../service/CourseService";
+import {BrowserRouter as Router, Route, Redirect} from "react-router-dom";
+import CourseList from "./CourseList";
 
 class CourseManager extends React.Component {
-  componentWillMount() {
-    courseService.findAll(courses => console.log(courses));
-  }
-
   render() {
-    return <h1>Hello world!</h1>;
+    return (
+      <Router basename="/react/app.html">
+        <div>
+          <Route exact path="/" render={() => <Redirect to="/courses"/>}/>
+          <Route path="/courses" component={CourseList}/>
+        </div>
+      </Router>
+    );
   }
 }
 
