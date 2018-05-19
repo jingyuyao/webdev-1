@@ -5,7 +5,7 @@ import CourseList from "./CourseList";
 class CourseManager extends React.Component {
   render() {
     return (
-      <Router basename="/react/app.html">
+      <Router basename="/react/app">
         <div>
           <Route exact path="/" render={() => <Redirect to="/courses"/>}/>
           <Route path="/courses" component={CourseList}/>
