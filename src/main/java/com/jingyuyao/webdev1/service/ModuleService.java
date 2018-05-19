@@ -39,12 +39,12 @@ public class ModuleService {
     return moduleRepository.findById(id).orElseThrow(() -> new NotFoundException("Module", id));
   }
 
-  @GetMapping("/api/course/{id}/modules")
-  public Iterable<Module> findModulesById(@PathVariable int id) {
+  @GetMapping("/api/course/{courseId}/modules")
+  public Iterable<Module> findAllByCourseId(@PathVariable int courseId) {
     return
         courseRepository
-            .findById(id)
-            .orElseThrow(() -> new NotFoundException("Course", id))
+            .findById(courseId)
+            .orElseThrow(() -> new NotFoundException("Course", courseId))
             .getModules();
   }
 

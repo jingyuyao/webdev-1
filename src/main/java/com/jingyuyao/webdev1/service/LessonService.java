@@ -39,12 +39,12 @@ public class LessonService {
     return lessonRepository.findById(id).orElseThrow(() -> new NotFoundException("Lesson", id));
   }
 
-  @GetMapping("/api/module/{id}/lessons")
-  public Iterable<Lesson> findLessonsById(@PathVariable int id) {
+  @GetMapping("/api/module/{moduleId}/lessons")
+  public Iterable<Lesson> findAllByModuleId(@PathVariable int moduleId) {
     return
         moduleRepository
-            .findById(id)
-            .orElseThrow(() -> new NotFoundException("Module", id))
+            .findById(moduleId)
+            .orElseThrow(() -> new NotFoundException("Module", moduleId))
             .getLessons();
   }
 
