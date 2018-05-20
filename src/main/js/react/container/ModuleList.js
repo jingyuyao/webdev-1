@@ -3,7 +3,7 @@ import {withRouter} from "react-router-dom";
 import {withStyles} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
-import List from "@material-ui/core/List";
+import MenuList from "@material-ui/core/MenuList";
 import TextField from "@material-ui/core/TextField";
 import ModuleRow from "../component/ModuleRow";
 import moduleService from "../service/ModuleService";
@@ -115,9 +115,9 @@ class ModuleList extends React.Component {
               </Button>
             </form>
           </Grid>
-          <List>
+          <MenuList>
             {moduleRows}
-          </List>
+          </MenuList>
         </Grid>
       </Grid>
     );

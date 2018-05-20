@@ -1,10 +1,24 @@
 import React from "react";
 import {withRouter} from "react-router-dom";
+import {withStyles} from "@material-ui/core/styles";
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
-import ListItem from "@material-ui/core/ListItem";
+import MenuItem from "@material-ui/core/MenuItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+
+const styles = theme => ({
+  menuItem: {
+    "&:focus": {
+      backgroundColor: theme.palette.primary.main,
+      "& $primary, & $icon": {
+        color: theme.palette.common.white,
+      },
+    },
+  },
+  primary: {},
+  icon: {}
+});
 
 class ModuleRow extends React.Component {
   constructor(props) {
@@ -26,17 +40,20 @@ class ModuleRow extends React.Component {
   }
 
   render() {
+    const classes = this.props.classes;
     return (
-      <ListItem button onClick={this.navigate}>
-        <ListItemText>{this.props.module.title}</ListItemText>
-        <ListItemSecondaryAction>
+      <MenuItem className={classes.menuItem} onClick={this.navigate}>
+        <ListItemText className={classes.primary}>
+          {this.props.module.title}
+        </ListItemText>
+        <ListItemSecondaryAction className={classes.icon}>
           <IconButton onClick={this.remove}>
             <DeleteIcon/>
           </IconButton>
         </ListItemSecondaryAction>
-      </ListItem>
+      </MenuItem>
     );
   }
 }
 
-export default withRouter(ModuleRow);
+export default withRouter(withStyles(styles)(ModuleRow));
