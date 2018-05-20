@@ -32,6 +32,8 @@ class LessonTabs extends React.Component {
       lessonService
         .findAllByModuleId(this.props.optModuleId)
         .then(lessons => this.setState({lessons: lessons}));
+    } else {
+      this.setState({lessons: []});
     }
   }
 
