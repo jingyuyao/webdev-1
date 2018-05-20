@@ -1,4 +1,5 @@
 import React from "react";
+import {withRouter} from "react-router-dom";
 import {withStyles} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
@@ -73,7 +74,15 @@ class ModuleList extends React.Component {
   removeModule(id) {
     moduleService
       .remove(id)
-      .then(this.refreshModules);
+      .then(() => {
+        // Go back to general course page if the current module is deleted
+        if (String(id) === this.props.optModuleId) {
+          const courseLink = `/course/${this.props.courseId}`;
+          this.props.history.push(courseLink);
+        }
+
+        this.refreshModules();
+      });
   }
 
   render() {
@@ -112,4 +121,4 @@ class ModuleList extends React.Component {
   }
 }
 
-export default withStyles(styles)(ModuleList);
+export default withRouter(withStyles(styles)(ModuleList));

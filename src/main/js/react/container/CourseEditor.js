@@ -63,7 +63,7 @@ class CourseEditor extends React.Component {
           </Toolbar>
         </AppBar>
         <Grid container>
-          <ModuleList courseId={courseId}/>
+          <ModuleList courseId={courseId} optModuleId={optModuleId}/>
           <LessonTabs
             courseId={courseId}
             optModuleId={optModuleId}
