@@ -1,5 +1,5 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 
 class ModuleRow extends React.Component {
   constructor(props) {
@@ -19,7 +19,7 @@ class ModuleRow extends React.Component {
     return (
       <tr>
         <td>
-          <Link to={moduleLink}>{module.title}</Link>
+          <NavLink to={moduleLink}>{module.title}</NavLink>
         </td>
         <td>
           <button onClick={this.remove}>Remove</button>
