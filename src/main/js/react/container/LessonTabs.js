@@ -13,6 +13,12 @@ import Typography from "@material-ui/core/Typography";
 import lessonService from "../service/LessonService";
 
 const styles = theme => ({
+  root: {
+    margin: theme.spacing.unit
+  },
+  paper: {
+    padding: theme.spacing.unit
+  },
   form: {
     alignItems: "flex-end",
     display: "flex",
@@ -131,8 +137,8 @@ class LessonTabs extends React.Component {
     ) : null;
 
     return (
-      <Grid item xs={9}>
-        <Paper>
+      <Grid item xs={8} className={classes.root}>
+        <Paper className={classes.paper}>
           <Grid container direction="column">
             <Grid item>
               <form

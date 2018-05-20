@@ -9,6 +9,9 @@ import ModuleRow from "../component/ModuleRow";
 import moduleService from "../service/ModuleService";
 
 const styles = theme => ({
+  root: {
+    margin: theme.spacing.unit
+  },
   form: {
     alignItems: "flex-end",
     display: "flex",
@@ -96,7 +99,7 @@ class ModuleList extends React.Component {
     );
 
     return (
-      <Grid item xs={3}>
+      <Grid item xs={3} className={classes.root}>
         <Grid container direction="column">
           <Grid item>
             <form
