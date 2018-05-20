@@ -1,6 +1,7 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import Button from "@material-ui/core/Button";
+import DeleteIcon from "@material-ui/icons/Delete";
+import IconButton from "@material-ui/core/IconButton";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 
@@ -26,12 +27,9 @@ class CourseRow extends React.Component {
         <TableCell>{course.created}</TableCell>
         <TableCell>{course.modified}</TableCell>
         <TableCell>
-          <Button
-            variant="outlined"
-            color="secondary"
-            onClick={this.remove}>
-            Remove
-          </Button>
+          <IconButton onClick={this.remove}>
+            <DeleteIcon/>
+          </IconButton>
         </TableCell>
       </TableRow>
     );

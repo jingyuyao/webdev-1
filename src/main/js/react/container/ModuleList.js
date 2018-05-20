@@ -1,6 +1,23 @@
 import React from "react";
+import {withStyles} from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+import List from "@material-ui/core/List";
+import TextField from "@material-ui/core/TextField";
 import ModuleRow from "../component/ModuleRow";
 import moduleService from "../service/ModuleService";
+
+const styles = theme => ({
+  form: {
+    alignItems: "flex-end",
+    display: "flex",
+  },
+  titleInput: {
+    flexGrow: 1,
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit
+  }
+});
 
 class ModuleList extends React.Component {
   constructor(props) {
@@ -60,6 +77,7 @@ class ModuleList extends React.Component {
   }
 
   render() {
+    const classes = this.props.classes;
     const moduleRows = this.state.modules.map(module =>
       <ModuleRow
         key={module.id}
@@ -69,32 +87,29 @@ class ModuleList extends React.Component {
     );
 
     return (
-      <div>
-        <h3>Modules</h3>
-        <form onSubmit={this.createNewModule}>
-          <label>
-            Title
-            <input
-              type="text"
-              value={this.state.newModuleTitle}
-              onChange={this.newModuleTitleChanged}/>
-          </label>
-          <button type="submit">Submit</button>
-        </form>
-        <table>
-          <thead>
-            <tr>
-              <th>Module</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
+      <Grid item xs={3}>
+        <Grid container direction="column">
+          <Grid item>
+            <form
+              className={classes.form}
+              onSubmit={this.createNewModule}>
+              <TextField
+                label="Title"
+                className={classes.titleInput}
+                value={this.state.newModuleTitle}
+                onChange={this.newModuleTitleChanged}/>
+              <Button type="submit" variant="raised" color="primary">
+                New Module
+              </Button>
+            </form>
+          </Grid>
+          <List>
             {moduleRows}
-          </tbody>
-        </table>
-      </div>
+          </List>
+        </Grid>
+      </Grid>
     );
   }
 }
 
-export default ModuleList;
+export default withStyles(styles)(ModuleList);

@@ -1,11 +1,24 @@
 import React from "react";
-import {NavLink} from "react-router-dom";
+import {withRouter} from "react-router-dom";
+import DeleteIcon from "@material-ui/icons/Delete";
+import IconButton from "@material-ui/core/IconButton";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 
 class ModuleRow extends React.Component {
   constructor(props) {
     super(props);
 
+    this.navigate = this.navigate.bind(this);
     this.remove = this.remove.bind(this);
+  }
+
+  navigate() {
+    const courseId = this.props.courseId;
+    const module = this.props.module;
+    const moduleLink = `/course/${courseId}/${module.id}`;
+    this.props.history.push(moduleLink);
   }
 
   remove() {
@@ -13,20 +26,17 @@ class ModuleRow extends React.Component {
   }
 
   render() {
-    const courseId = this.props.courseId;
-    const module = this.props.module;
-    const moduleLink = `/course/${courseId}/${module.id}`;
     return (
-      <tr>
-        <td>
-          <NavLink to={moduleLink}>{module.title}</NavLink>
-        </td>
-        <td>
-          <button onClick={this.remove}>Remove</button>
-        </td>
-      </tr>
+      <ListItem button onClick={this.navigate}>
+        <ListItemText>{this.props.module.title}</ListItemText>
+        <ListItemSecondaryAction>
+          <IconButton onClick={this.remove}>
+            <DeleteIcon/>
+          </IconButton>
+        </ListItemSecondaryAction>
+      </ListItem>
     );
   }
 }
 
-export default ModuleRow;
+export default withRouter(ModuleRow);

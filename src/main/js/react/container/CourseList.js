@@ -96,7 +96,7 @@ class CourseList extends React.Component {
                 value={this.state.newCourseTitle}
                 onChange={this.newCourseTitleChanged}/>
               <Button type="submit" variant="raised" color="primary">
-                Submit
+                New Course
               </Button>
             </form>
           </Grid>
