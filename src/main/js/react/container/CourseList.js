@@ -1,6 +1,24 @@
 import React from "react";
+import { withStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+import Table from "@material-ui/core/Table";
+import TableHead from "@material-ui/core/TableHead";
+import TableBody from "@material-ui/core/TableBody";
+import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell";
+import TextField from "@material-ui/core/TextField";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
 import CourseRow from "../component/CourseRow";
 import courseService from "../service/CourseService";
+
+const styles = theme => ({
+  titleInput: {
+    marginRight: theme.spacing.unit
+  }
+});
 
 class CourseList extends React.Component {
   constructor(props) {
@@ -51,6 +69,7 @@ class CourseList extends React.Component {
   }
 
   render() {
+    const classes = this.props.classes;
     const courseRows = this.state.courses.map(course =>
       <CourseRow
         key={course.id}
@@ -60,34 +79,46 @@ class CourseList extends React.Component {
     );
 
     return (
-      <div>
-        <h2>Course List</h2>
-        <form onSubmit={this.createNewCourse}>
-          <label>
-            Title
-            <input
-              type="text"
-              value={this.state.newCourseTitle}
-              onChange={this.newCourseTitleChanged}/>
-          </label>
-          <button type="submit">Submit</button>
-        </form>
-        <table>
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Created</th>
-              <th>Modified</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {courseRows}
-          </tbody>
-        </table>
-      </div>
+      <React.Fragment>
+        <AppBar position="static">
+          <Toolbar>
+            <Typography variant="title" color="inherit">
+              Course List
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <Grid container direction="column" alignItems="center">
+          <Grid item xs={12}>
+            <form onSubmit={this.createNewCourse}>
+              <TextField
+                label="Title"
+                className={classes.titleInput}
+                value={this.state.newCourseTitle}
+                onChange={this.newCourseTitleChanged}/>
+              <Button type="submit" variant="raised" color="primary">
+                Submit
+              </Button>
+            </form>
+          </Grid>
+          <Grid item xs={12}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Title</TableCell>
+                  <TableCell>Created</TableCell>
+                  <TableCell>Modified</TableCell>
+                  <TableCell>Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {courseRows}
+              </TableBody>
+            </Table>
+          </Grid>
+        </Grid>
+      </React.Fragment>
     );
   }
 }
 
-export default CourseList;
+export default withStyles(styles)(CourseList);

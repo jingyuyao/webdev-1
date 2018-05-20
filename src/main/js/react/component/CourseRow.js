@@ -1,5 +1,8 @@
 import React from "react";
 import {Link} from "react-router-dom";
+import Button from "@material-ui/core/Button";
+import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell";
 
 class CourseRow extends React.Component {
   constructor(props) {
@@ -16,16 +19,19 @@ class CourseRow extends React.Component {
     const course = this.props.course;
     const courseLink = `/course/${course.id}`;
     return (
-      <tr>
-        <td>
+      <TableRow>
+        <TableCell>
           <Link to={courseLink}>{course.title}</Link>
-        </td>
-        <td>{course.created}</td>
-        <td>{course.modified}</td>
-        <td>
-          <button onClick={this.remove}>Remove</button>
-        </td>
-      </tr>
+        </TableCell>
+        <TableCell>{course.created}</TableCell>
+        <TableCell>{course.modified}</TableCell>
+        <TableCell>
+          <Button variant="outlined" color="secondary"
+                  onClick={this.remove}>
+            Remove
+          </Button>
+        </TableCell>
+      </TableRow>
     );
   }
 }
