@@ -1,6 +1,8 @@
 package com.jingyuyao.webdev1.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -19,7 +21,7 @@ public class Module {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
   private String title;
-  @JsonIgnore
+  @JsonProperty(access = Access.WRITE_ONLY)
   @ManyToOne(fetch = FetchType.LAZY)
   private Course course;
   @JsonIgnore

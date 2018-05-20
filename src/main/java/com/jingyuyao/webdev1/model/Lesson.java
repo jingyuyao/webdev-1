@@ -1,6 +1,7 @@
 package com.jingyuyao.webdev1.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -15,7 +16,7 @@ public class Lesson {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
   private String title;
-  @JsonIgnore
+  @JsonProperty(access = Access.WRITE_ONLY)
   @ManyToOne(fetch = FetchType.LAZY)
   private Module module;
 
