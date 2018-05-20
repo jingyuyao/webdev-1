@@ -21,10 +21,6 @@ class CourseList extends React.Component {
     this.refreshCourses();
   }
 
-  componentDidUpdate() {
-    this.refreshCourses();
-  }
-
   refreshCourses() {
     courseService
       .findAll()

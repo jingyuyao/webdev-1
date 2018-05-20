@@ -7,6 +7,7 @@ class LessonTabs extends React.Component {
     super(props);
 
     this.state = {
+      newLessonTitle: "",
       lessons: []
     };
 
@@ -89,7 +90,17 @@ class LessonTabs extends React.Component {
           </label>
           <button type="submit">Submit</button>
         </form>
-        {lessonTabs}
+        <table>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {lessonTabs}
+          </tbody>
+        </table>
       </div>
     );
   }
