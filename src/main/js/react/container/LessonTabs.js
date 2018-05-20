@@ -52,7 +52,8 @@ class LessonTabs extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.optModuleId !== prevProps.optModuleId) {
+    if (this.props.optModuleId !== prevProps.optModuleId
+        || this.props.optLessonId !== prevProps.optLessonId) {
       this.refreshLessons();
     }
   }
@@ -61,8 +62,15 @@ class LessonTabs extends React.Component {
     if (this.props.optModuleId) {
       lessonService
         .findAllByModuleId(this.props.optModuleId)
-        .then(lessons =>
-          this.setState({lessons: lessons, selectedIndex: 0}));
+        .then(lessons => {
+          if (this.props.optLessonId) {
+            const selectIndex = lessons.findIndex(
+              lesson => String(lesson.id) === this.props.optLessonId);
+            this.setState({lessons: lessons, selectedIndex: selectIndex});
+          } else {
+            this.setState({lessons: lessons, selectedIndex: 0});
+          }
+        });
     } else {
       this.setState({lessons: [], selectedIndex: 0});
     }
