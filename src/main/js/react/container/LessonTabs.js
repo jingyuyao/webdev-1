@@ -2,6 +2,8 @@ import React from "react";
 import {withRouter} from "react-router-dom";
 import {withStyles} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
+import DeleteIcon from "@material-ui/icons/Delete";
+import IconButton from "@material-ui/core/IconButton";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Tab from "@material-ui/core/Tab";
@@ -83,7 +85,13 @@ class LessonTabs extends React.Component {
   removeLesson(id) {
     lessonService
       .remove(id)
-      .then(this.refreshLessons);
+      .then(() => {
+        const courseId = this.props.courseId;
+        const moduleId = this.props.optModuleId;
+        const moduleLink = `/course/${courseId}/${moduleId}`;
+        this.props.history.push(moduleLink);
+        this.refreshLessons();
+      });
   }
 
   tabChanged(event, index) {
@@ -108,9 +116,18 @@ class LessonTabs extends React.Component {
       <Tab key={lesson.id} label={lesson.title}/>
     );
     const selectedTab = selectedLesson ? (
-      <Typography>
-        Viewing lesson {selectedLesson.title}
-      </Typography>
+      <Grid container direction="column">
+        <Grid item>
+          <Typography>
+            Viewing lesson {selectedLesson.title}
+          </Typography>
+        </Grid>
+        <Grid item>
+          <IconButton onClick={this.removeLesson.bind(this, selectedLesson.id)}>
+            <DeleteIcon/>
+          </IconButton>
+        </Grid>
+      </Grid>
     ) : null;
 
     return (
