@@ -36,16 +36,16 @@ class LessonTabs extends React.Component {
   createNewLesson(event) {
     event.preventDefault();
 
-    const module = {
+    const lesson = {
       title: this.state.newLessonTitle,
-      course: {
-        id: this.props.courseId
+      module: {
+        id: this.props.optModuleId
       }
     };
     this.setState({newLessonTitle: ""});
 
-    moduleService
-      .create(module)
+    lessonService
+      .create(lesson)
       .then(this.refreshLessons);
   }
 
@@ -54,7 +54,7 @@ class LessonTabs extends React.Component {
   }
 
   removeLesson(id) {
-    moduleService
+    lessonService
       .remove(id)
       .then(this.refreshLessons);
   }
