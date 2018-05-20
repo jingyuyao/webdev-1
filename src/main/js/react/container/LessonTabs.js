@@ -95,7 +95,7 @@ class LessonTabs extends React.Component {
         const courseId = this.props.courseId;
         const moduleId = this.props.optModuleId;
         const moduleLink = `/course/${courseId}/${moduleId}`;
-        this.props.history.push(moduleLink);
+        this.props.history.replace(moduleLink);
         this.refreshLessons();
       });
   }

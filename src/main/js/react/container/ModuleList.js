@@ -81,7 +81,7 @@ class ModuleList extends React.Component {
         // Go back to general course page if the current module is deleted
         if (String(id) === this.props.optModuleId) {
           const courseLink = `/course/${this.props.courseId}`;
-          this.props.history.push(courseLink);
+          this.props.history.replace(courseLink);
         }
 
         this.refreshModules();
