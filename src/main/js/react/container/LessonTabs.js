@@ -1,6 +1,26 @@
 import React from "react";
-import LessonTab from "../component/LessonTab";
+import {withRouter} from "react-router-dom";
+import {withStyles} from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
+import Tab from "@material-ui/core/Tab";
+import Tabs from "@material-ui/core/Tabs";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
 import lessonService from "../service/LessonService";
+
+const styles = theme => ({
+  form: {
+    alignItems: "flex-end",
+    display: "flex",
+  },
+  titleInput: {
+    flexGrow: 1,
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit
+  }
+});
 
 class LessonTabs extends React.Component {
   constructor(props) {
@@ -8,13 +28,15 @@ class LessonTabs extends React.Component {
 
     this.state = {
       newLessonTitle: "",
-      lessons: []
+      lessons: [],
+      selectedIndex: 0
     };
 
     this.refreshLessons = this.refreshLessons.bind(this);
     this.createNewLesson = this.createNewLesson.bind(this);
     this.newLessonTitleChanged = this.newLessonTitleChanged.bind(this);
     this.removeLesson = this.removeLesson.bind(this);
+    this.tabChanged = this.tabChanged.bind(this);
   }
 
   componentDidMount() {
@@ -31,9 +53,10 @@ class LessonTabs extends React.Component {
     if (this.props.optModuleId) {
       lessonService
         .findAllByModuleId(this.props.optModuleId)
-        .then(lessons => this.setState({lessons: lessons}));
+        .then(lessons =>
+          this.setState({lessons: lessons, selectedIndex: 0}));
     } else {
-      this.setState({lessons: []});
+      this.setState({lessons: [], selectedIndex: 0});
     }
   }
 
@@ -63,49 +86,64 @@ class LessonTabs extends React.Component {
       .then(this.refreshLessons);
   }
 
+  tabChanged(event, index) {
+    const courseId = this.props.courseId;
+    const moduleId = this.props.optModuleId;
+    const lesson = this.state.lessons[index];
+    const lessonLink = `/course/${courseId}/${moduleId}/${lesson.id}`;
+    this.props.history.push(lessonLink);
+    this.setState({selectedIndex: index});
+  }
+
   render() {
     if (!this.props.optModuleId) {
       return null;
     }
 
-    const courseId = this.props.courseId;
-    const moduleId = this.props.optModuleId;
-    const lessonTabs = this.state.lessons.map(lesson =>
-      <LessonTab
-        key={lesson.id}
-        courseId={courseId}
-        moduleId={moduleId}
-        lesson={lesson}
-        removeLesson={this.removeLesson}/>
+    const classes = this.props.classes;
+    const lessons = this.state.lessons;
+    const selectedIndex = this.state.selectedIndex;
+    const selectedLesson = lessons[selectedIndex];
+    const lessonTabs = lessons.map(lesson =>
+      <Tab key={lesson.id} label={lesson.title}/>
     );
+    const selectedTab = selectedLesson ? (
+      <Typography>
+        Viewing lesson {selectedLesson.title}
+      </Typography>
+    ) : null;
 
     return (
-      <div>
-        <h3>Lessons</h3>
-        <form onSubmit={this.createNewLesson}>
-          <label>
-            Title
-            <input
-              type="text"
-              value={this.state.newLessonTitle}
-              onChange={this.newLessonTitleChanged}/>
-          </label>
-          <button type="submit">Submit</button>
-        </form>
-        <table>
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {lessonTabs}
-          </tbody>
-        </table>
-      </div>
+      <Grid item xs={9}>
+        <Paper>
+          <Grid container direction="column">
+            <Grid item>
+              <form
+                className={classes.form}
+                onSubmit={this.createNewLesson}>
+                <TextField
+                  label="Title"
+                  className={classes.titleInput}
+                  value={this.state.newLessonTitle}
+                  onChange={this.newLessonTitleChanged}/>
+                <Button type="submit" variant="raised" color="primary">
+                  New Lesson
+                </Button>
+              </form>
+            </Grid>
+            <Grid item>
+              <Tabs value={selectedIndex} onChange={this.tabChanged}>
+                {lessonTabs}
+              </Tabs>
+            </Grid>
+            <Grid item>
+              {selectedTab}
+            </Grid>
+          </Grid>
+        </Paper>
+      </Grid>
     );
   }
 }
 
-export default LessonTabs;
+export default withRouter(withStyles(styles)(LessonTabs));
