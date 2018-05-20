@@ -9,8 +9,8 @@ class CourseManager extends React.Component {
       <Router basename="/react/app">
         <div>
           <Route exact path="/" render={() => <Redirect to="/courses"/>}/>
-          <Route path="/courses" component={CourseList}/>
-          <Route path="/course/:courseId" component={CourseEditor}/>
+          <Route exact path="/courses" component={CourseList}/>
+          <Route path="/course/:courseId/:moduleId?/:lessonId?" component={CourseEditor}/>
         </div>
       </Router>
     );

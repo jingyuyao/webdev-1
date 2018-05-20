@@ -1,7 +1,7 @@
 import React from "react";
 import {Link} from "react-router-dom";
 
-class CourseRow extends React.Component {
+class ModuleRow extends React.Component {
   constructor(props) {
     super(props);
 
@@ -9,19 +9,18 @@ class CourseRow extends React.Component {
   }
 
   remove() {
-    this.props.removeCourse(this.props.course.id);
+    this.props.removeModule(this.props.module.id);
   }
 
   render() {
-    const course = this.props.course;
-    const courseLink = `/course/${course.id}`;
+    const courseId = this.props.courseId;
+    const module = this.props.module;
+    const moduleLink = `/course/${courseId}/module/${module.id}`;
     return (
       <tr>
         <td>
-          <Link to={courseLink}>{course.title}</Link>
+          <Link to={moduleLink}>{module.title}</Link>
         </td>
-        <td>{course.created}</td>
-        <td>{course.modified}</td>
         <td>
           <button onClick={this.remove}>Remove</button>
         </td>
@@ -30,4 +29,4 @@ class CourseRow extends React.Component {
   }
 }
 
-export default CourseRow;
+export default ModuleRow;

@@ -1,4 +1,5 @@
 import React from "react";
+import ModuleRow from "../component/ModuleRow";
 import moduleService from "../service/ModuleService";
 
 class ModuleList extends React.Component {
@@ -54,7 +55,11 @@ class ModuleList extends React.Component {
 
   render() {
     const moduleRows = this.state.modules.map(module =>
-      <li key={module.id}>{module.title}</li>
+      <ModuleRow
+        key={module.id}
+        courseId={this.props.courseId}
+        module={module}
+        removeModule={this.removeModule}/>
     );
 
     return (
@@ -70,9 +75,17 @@ class ModuleList extends React.Component {
           </label>
           <button type="submit">Submit</button>
         </form>
-        <ul>
-          {moduleRows}
-        </ul>
+        <table>
+          <thead>
+            <tr>
+              <th>Module</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {moduleRows}
+          </tbody>
+        </table>
       </div>
     );
   }
