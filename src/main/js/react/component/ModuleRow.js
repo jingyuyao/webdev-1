@@ -15,7 +15,7 @@ class ModuleRow extends React.Component {
   render() {
     const courseId = this.props.courseId;
     const module = this.props.module;
-    const moduleLink = `/course/${courseId}/module/${module.id}`;
+    const moduleLink = `/course/${courseId}/${module.id}`;
     return (
       <tr>
         <td>

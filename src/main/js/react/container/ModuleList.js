@@ -21,6 +21,12 @@ class ModuleList extends React.Component {
     this.refreshModules();
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.courseId !== prevProps.courseId) {
+      this.refreshModules();
+    }
+  }
+
   refreshModules() {
     moduleService
       .findAllByCourseId(this.props.courseId)
