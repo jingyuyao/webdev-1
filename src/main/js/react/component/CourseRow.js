@@ -26,8 +26,10 @@ class CourseRow extends React.Component {
         <TableCell>{course.created}</TableCell>
         <TableCell>{course.modified}</TableCell>
         <TableCell>
-          <Button variant="outlined" color="secondary"
-                  onClick={this.remove}>
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={this.remove}>
             Remove
           </Button>
         </TableCell>
