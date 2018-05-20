@@ -1,4 +1,5 @@
 import React from "react";
+import LessonTab from "../component/LessonTab";
 import lessonService from "../service/LessonService";
 
 class LessonTabs extends React.Component {
@@ -60,26 +61,34 @@ class LessonTabs extends React.Component {
   }
 
   render() {
-    const lessonForm = this.props.optModuleId ? (
-      <form onSubmit={this.createNewLesson}>
-        <label>
-          Title
-          <input
-            type="text"
-            value={this.state.newLessonTitle}
-            onChange={this.newLessonTitleChanged}/>
-        </label>
-        <button type="submit">Submit</button>
-      </form>
-    ) : null;
+    if (!this.props.optModuleId) {
+      return null;
+    }
+
+    const courseId = this.props.courseId;
+    const moduleId = this.props.optModuleId;
     const lessonTabs = this.state.lessons.map(lesson =>
-      <span key={lesson.id}>{lesson.title}</span>
+      <LessonTab
+        key={lesson.id}
+        courseId={courseId}
+        moduleId={moduleId}
+        lesson={lesson}
+        removeLesson={this.removeLesson}/>
     );
 
     return (
       <div>
         <h3>Lessons</h3>
-        {lessonForm}
+        <form onSubmit={this.createNewLesson}>
+          <label>
+            Title
+            <input
+              type="text"
+              value={this.state.newLessonTitle}
+              onChange={this.newLessonTitleChanged}/>
+          </label>
+          <button type="submit">Submit</button>
+        </form>
         {lessonTabs}
       </div>
     );
