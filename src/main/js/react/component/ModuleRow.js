@@ -1,24 +1,10 @@
 import React from "react";
 import {withRouter} from "react-router-dom";
-import {withStyles} from "@material-ui/core/styles";
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
 import MenuItem from "@material-ui/core/MenuItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-
-const styles = theme => ({
-  menuItem: {
-    "&:focus": {
-      backgroundColor: theme.palette.primary.main,
-      "& $primary, & $icon": {
-        color: theme.palette.common.white,
-      },
-    },
-  },
-  primary: {},
-  icon: {}
-});
 
 class ModuleRow extends React.Component {
   constructor(props) {
@@ -40,13 +26,13 @@ class ModuleRow extends React.Component {
   }
 
   render() {
-    const classes = this.props.classes;
+    const active = String(this.props.module.id) === this.props.match.params.optModuleId;
     return (
-      <MenuItem className={classes.menuItem} onClick={this.navigate}>
-        <ListItemText className={classes.primary}>
+      <MenuItem selected={active} onClick={this.navigate}>
+        <ListItemText>
           {this.props.module.title}
         </ListItemText>
-        <ListItemSecondaryAction className={classes.icon}>
+        <ListItemSecondaryAction>
           <IconButton onClick={this.remove}>
             <DeleteIcon/>
           </IconButton>
@@ -56,4 +42,4 @@ class ModuleRow extends React.Component {
   }
 }
 
-export default withRouter(withStyles(styles)(ModuleRow));
+export default withRouter(ModuleRow);
