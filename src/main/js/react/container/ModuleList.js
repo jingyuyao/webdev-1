@@ -1,5 +1,4 @@
 import React from "react";
-import {withRouter} from "react-router-dom";
 import {withStyles} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
@@ -43,14 +42,16 @@ class ModuleList extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.courseId !== prevProps.courseId) {
+    const prevParams = prevProps.match.params;
+    const currParams = this.props.match.params;
+    if (currParams.courseId !== prevParams.courseId) {
       this.refreshModules();
     }
   }
 
   refreshModules() {
     moduleService
-      .findAllByCourseId(this.props.courseId)
+      .findAllByCourseId(this.props.match.params.courseId)
       .then(modules => this.setState({modules: modules}));
   }
 
@@ -60,7 +61,7 @@ class ModuleList extends React.Component {
     const module = {
       title: this.state.newModuleTitle,
       course: {
-        id: this.props.courseId
+        id: this.props.match.params.courseId
       }
     };
     this.setState({newModuleTitle: ""});
@@ -78,12 +79,7 @@ class ModuleList extends React.Component {
     moduleService
       .remove(id)
       .then(() => {
-        // Go back to general course page if the current module is deleted
-        if (String(id) === this.props.optModuleId) {
-          const courseLink = `/course/${this.props.courseId}`;
-          this.props.history.replace(courseLink);
-        }
-
+        this.props.history.replace(this.props.match.url);
         this.refreshModules();
       });
   }
@@ -93,7 +89,6 @@ class ModuleList extends React.Component {
     const moduleRows = this.state.modules.map(module =>
       <ModuleRow
         key={module.id}
-        courseId={this.props.courseId}
         module={module}
         removeModule={this.removeModule}/>
     );
@@ -124,4 +119,4 @@ class ModuleList extends React.Component {
   }
 }
 
-export default withRouter(withStyles(styles)(ModuleList));
+export default withStyles(styles)(ModuleList);

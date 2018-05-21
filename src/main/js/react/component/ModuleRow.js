@@ -1,5 +1,5 @@
 import React from "react";
-import {withRouter} from "react-router-dom";
+import {withRouter, matchPath} from "react-router-dom";
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -15,9 +15,8 @@ class ModuleRow extends React.Component {
   }
 
   navigate() {
-    const courseId = this.props.courseId;
-    const module = this.props.module;
-    const moduleLink = `/course/${courseId}/${module.id}`;
+    const match = this.props.match;
+    const moduleLink = `${match.url}/${this.props.module.id}`;
     this.props.history.push(moduleLink);
   }
 
@@ -26,7 +25,12 @@ class ModuleRow extends React.Component {
   }
 
   render() {
-    const active = String(this.props.module.id) === this.props.match.params.optModuleId;
+    const match = this.props.match;
+    const moduleMatch = matchPath(this.props.location.pathname, {
+      path: `${match.path}/:moduleId`
+    });
+    const active =
+      moduleMatch !== null && String(this.props.module.id) === moduleMatch.params.moduleId;
     return (
       <MenuItem selected={active} onClick={this.navigate}>
         <ListItemText>

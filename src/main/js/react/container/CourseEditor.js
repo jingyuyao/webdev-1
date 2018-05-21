@@ -1,4 +1,5 @@
 import React from "react";
+import {Route} from "react-router-dom";
 import {withStyles} from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Grid from "@material-ui/core/Grid";
@@ -43,9 +44,7 @@ class CourseEditor extends React.Component {
 
   render() {
     const classes = this.props.classes;
-    const courseId = this.props.match.params.courseId;
-    const optModuleId = this.props.match.params.optModuleId;
-    const optLessonId = this.props.match.params.optLessonId;
+    const match = this.props.match;
 
     return (
       <React.Fragment>
@@ -63,11 +62,8 @@ class CourseEditor extends React.Component {
           </Toolbar>
         </AppBar>
         <Grid container>
-          <ModuleList courseId={courseId} optModuleId={optModuleId}/>
-          <LessonTabs
-            courseId={courseId}
-            optModuleId={optModuleId}
-            optLessonId={optLessonId}/>
+          <Route path={`${match.path}`} component={ModuleList}/>
+          <Route path={`${match.path}/:moduleId`} component={LessonTabs}/>
         </Grid>
       </React.Fragment>
     );

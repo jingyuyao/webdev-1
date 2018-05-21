@@ -1,5 +1,5 @@
 import React from "react";
-import {withRouter} from "react-router-dom";
+import {matchPath} from "react-router-dom";
 import {withStyles} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -35,16 +35,26 @@ class LessonTabs extends React.Component {
     super(props);
 
     this.state = {
+      lessonMatch: null,
       newLessonTitle: "",
       lessons: [],
-      selectedIndex: 0
+      selectedIndex: false
     };
 
     this.refreshLessons = this.refreshLessons.bind(this);
+    this.selectActiveTab = this.selectActiveTab.bind(this);
     this.createNewLesson = this.createNewLesson.bind(this);
     this.newLessonTitleChanged = this.newLessonTitleChanged.bind(this);
     this.removeLesson = this.removeLesson.bind(this);
     this.tabChanged = this.tabChanged.bind(this);
+  }
+
+  static getDerivedStateFromProps(nextProps) {
+    return {
+      lessonMatch: matchPath(nextProps.location.pathname, {
+        path: `${nextProps.match.path}/:lessonId`
+      })
+    };
   }
 
   componentDidMount() {
@@ -52,27 +62,30 @@ class LessonTabs extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.optModuleId !== prevProps.optModuleId
-        || this.props.optLessonId !== prevProps.optLessonId) {
+    const prevParams = prevProps.match.params;
+    const currParams = this.props.match.params;
+    if (currParams.moduleId !== prevParams.moduleId) {
       this.refreshLessons();
+    } else {
+      this.selectActiveTab();
     }
   }
 
   refreshLessons() {
-    if (this.props.optModuleId) {
-      lessonService
-        .findAllByModuleId(this.props.optModuleId)
-        .then(lessons => {
-          if (this.props.optLessonId) {
-            const selectIndex = lessons.findIndex(
-              lesson => String(lesson.id) === this.props.optLessonId);
-            this.setState({lessons: lessons, selectedIndex: selectIndex});
-          } else {
-            this.setState({lessons: lessons, selectedIndex: 0});
-          }
-        });
-    } else {
-      this.setState({lessons: [], selectedIndex: 0});
+    lessonService
+      .findAllByModuleId(this.props.match.params.moduleId)
+      .then(lessons => this.setState({lessons: lessons}))
+      .then(this.selectActiveTab);
+  }
+
+  selectActiveTab() {
+    const currLessonId =
+      this.state.lessonMatch && this.state.lessonMatch.params.lessonId;
+    const currLessonIndex = this.state.lessons.findIndex(lesson =>
+      String(lesson.id) === currLessonId);
+    const selectIndex = currLessonIndex !== -1 && currLessonIndex;
+    if (selectIndex !== this.state.selectedIndex) {
+      this.setState({selectedIndex: selectIndex});
     }
   }
 
@@ -82,7 +95,7 @@ class LessonTabs extends React.Component {
     const lesson = {
       title: this.state.newLessonTitle,
       module: {
-        id: this.props.optModuleId
+        id: this.props.match.params.moduleId
       }
     };
     this.setState({newLessonTitle: ""});
@@ -100,28 +113,20 @@ class LessonTabs extends React.Component {
     lessonService
       .remove(id)
       .then(() => {
-        const courseId = this.props.courseId;
-        const moduleId = this.props.optModuleId;
-        const moduleLink = `/course/${courseId}/${moduleId}`;
-        this.props.history.replace(moduleLink);
+        this.props.history.replace(this.props.match.url);
         this.refreshLessons();
       });
   }
 
   tabChanged(event, index) {
-    const courseId = this.props.courseId;
-    const moduleId = this.props.optModuleId;
+    const match = this.props.match;
     const lesson = this.state.lessons[index];
-    const lessonLink = `/course/${courseId}/${moduleId}/${lesson.id}`;
+    const lessonLink = `${match.url}/${lesson.id}`;
     this.props.history.push(lessonLink);
     this.setState({selectedIndex: index});
   }
 
   render() {
-    if (!this.props.optModuleId) {
-      return null;
-    }
-
     const classes = this.props.classes;
     const lessons = this.state.lessons;
     const selectedIndex = this.state.selectedIndex;
@@ -177,4 +182,4 @@ class LessonTabs extends React.Component {
   }
 }
 
-export default withRouter(withStyles(styles)(LessonTabs));
+export default withStyles(styles)(LessonTabs);

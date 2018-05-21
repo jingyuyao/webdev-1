@@ -12,7 +12,7 @@ class CourseManager extends React.Component {
           <CssBaseline/>
           <Route exact path="/" render={() => <Redirect to="/courses"/>}/>
           <Route exact path="/courses" component={CourseList}/>
-          <Route path="/course/:courseId/:optModuleId?/:optLessonId?" component={CourseEditor}/>
+          <Route path="/course/:courseId" component={CourseEditor}/>
         </React.Fragment>
       </Router>
     );
