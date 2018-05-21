@@ -16,7 +16,8 @@ class ModuleRow extends React.Component {
 
   navigate() {
     const match = this.props.match;
-    const moduleLink = `${match.url}/${this.props.module.id}`;
+    const module = this.props.module;
+    const moduleLink = `${match.url}/${module.id}`;
     this.props.history.push(moduleLink);
   }
 

@@ -1,5 +1,5 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
 import TableRow from "@material-ui/core/TableRow";
@@ -17,8 +17,9 @@ class CourseRow extends React.Component {
   }
 
   render() {
+    const match = this.props.match;
     const course = this.props.course;
-    const courseLink = `/course/${course.id}`;
+    const courseLink = `${match.url}/${course.id}`;
     return (
       <TableRow>
         <TableCell>
@@ -36,4 +37,4 @@ class CourseRow extends React.Component {
   }
 }
 
-export default CourseRow;
+export default withRouter(CourseRow);
