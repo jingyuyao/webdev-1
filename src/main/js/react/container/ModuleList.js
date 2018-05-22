@@ -9,7 +9,7 @@ import moduleService from "../service/ModuleService";
 
 const styles = theme => ({
   root: {
-    margin: theme.spacing.unit
+    padding: theme.spacing.unit
   },
   form: {
     alignItems: "flex-end",
@@ -94,22 +94,22 @@ class ModuleList extends React.Component {
     );
 
     return (
-      <Grid item xs={3} className={classes.root}>
-        <Grid container direction="column">
-          <Grid item>
-            <form
-              className={classes.form}
-              onSubmit={this.createNewModule}>
-              <TextField
-                label="Title"
-                className={classes.titleInput}
-                value={this.state.newModuleTitle}
-                onChange={this.newModuleTitleChanged}/>
-              <Button type="submit" variant="raised" color="primary">
-                New Module
-              </Button>
-            </form>
-          </Grid>
+      <Grid container direction="column" className={classes.root}>
+        <Grid item xs={12}>
+          <form
+            className={classes.form}
+            onSubmit={this.createNewModule}>
+            <TextField
+              label="Title"
+              className={classes.titleInput}
+              value={this.state.newModuleTitle}
+              onChange={this.newModuleTitleChanged}/>
+            <Button type="submit" variant="raised" color="primary">
+              New Module
+            </Button>
+          </form>
+        </Grid>
+        <Grid item xs={12}>
           <MenuList>
             {moduleRows}
           </MenuList>

@@ -12,6 +12,9 @@ import courseService from "../service/CourseService";
 const styles = theme => ({
   title: {
     marginLeft: theme.spacing.unit
+  },
+  container: {
+    padding: theme.spacing.unit
   }
 });
 
@@ -61,9 +64,13 @@ class CourseEditor extends React.Component {
             </Typography>
           </Toolbar>
         </AppBar>
-        <Grid container>
-          <Route path={`${match.path}`} component={ModuleList}/>
-          <Route path={`${match.path}/:moduleId`} component={LessonTabs}/>
+        <Grid container className={classes.container}>
+          <Grid item xs={12} md={4}>
+            <Route path={`${match.path}`} component={ModuleList}/>
+          </Grid>
+          <Grid item xs={12} md={8}>
+            <Route path={`${match.path}/:moduleId`} component={LessonTabs}/>
+          </Grid>
         </Grid>
       </React.Fragment>
     );

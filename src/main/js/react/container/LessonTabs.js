@@ -14,9 +14,7 @@ import lessonService from "../service/LessonService";
 
 const styles = theme => ({
   root: {
-    margin: theme.spacing.unit
-  },
-  paper: {
+    display: "flex",
     padding: theme.spacing.unit
   },
   form: {
@@ -150,34 +148,32 @@ class LessonTabs extends React.Component {
     ) : null;
 
     return (
-      <Grid item xs={8} className={classes.root}>
-        <Paper className={classes.paper}>
-          <Grid container direction="column">
-            <Grid item>
-              <form
-                className={classes.form}
-                onSubmit={this.createNewLesson}>
-                <TextField
-                  label="Title"
-                  className={classes.titleInput}
-                  value={this.state.newLessonTitle}
-                  onChange={this.newLessonTitleChanged}/>
-                <Button type="submit" variant="raised" color="primary">
-                  New Lesson
-                </Button>
-              </form>
-            </Grid>
-            <Grid item>
-              <Tabs value={selectedIndex} onChange={this.tabChanged}>
-                {lessonTabs}
-              </Tabs>
-            </Grid>
-            <Grid item>
-              {selectedTab}
-            </Grid>
+      <Paper className={classes.root}>
+        <Grid container>
+          <Grid item xs={12}>
+            <form
+              className={classes.form}
+              onSubmit={this.createNewLesson}>
+              <TextField
+                label="Title"
+                className={classes.titleInput}
+                value={this.state.newLessonTitle}
+                onChange={this.newLessonTitleChanged}/>
+              <Button type="submit" variant="raised" color="primary">
+                New Lesson
+              </Button>
+            </form>
           </Grid>
-        </Paper>
-      </Grid>
+          <Grid item xs={12}>
+            <Tabs scrollable value={selectedIndex} onChange={this.tabChanged}>
+              {lessonTabs}
+            </Tabs>
+          </Grid>
+          <Grid item xs={12}>
+            {selectedTab}
+          </Grid>
+        </Grid>
+      </Paper>
     );
   }
 }
