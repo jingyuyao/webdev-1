@@ -5,6 +5,7 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuItem from "@material-ui/core/MenuItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import {joinPath} from "../util";
 
 class ModuleRow extends React.Component {
   constructor(props) {
@@ -17,7 +18,7 @@ class ModuleRow extends React.Component {
   navigate() {
     const match = this.props.match;
     const module = this.props.module;
-    const moduleLink = `${match.url}/${module.id}`;
+    const moduleLink = joinPath(match.url, `/${module.id}`);
     this.props.history.push(moduleLink);
   }
 

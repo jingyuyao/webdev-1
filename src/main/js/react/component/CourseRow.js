@@ -4,6 +4,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
+import {joinPath} from "../util";
 
 class CourseRow extends React.Component {
   constructor(props) {
@@ -16,7 +17,7 @@ class CourseRow extends React.Component {
   navigate() {
     const match = this.props.match;
     const course = this.props.course;
-    const courseLink = `${match.url}/${course.id}`;
+    const courseLink = joinPath(match.url, `/${course.id}`);
     this.props.history.push(courseLink);
   }
 

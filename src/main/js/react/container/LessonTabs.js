@@ -11,6 +11,7 @@ import Tabs from "@material-ui/core/Tabs";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import lessonService from "../service/LessonService";
+import {joinPath} from "../util";
 
 const styles = theme => ({
   root: {
@@ -119,7 +120,7 @@ class LessonTabs extends React.Component {
   tabChanged(event, index) {
     const match = this.props.match;
     const lesson = this.state.lessons[index];
-    const lessonLink = `${match.url}/${lesson.id}`;
+    const lessonLink = joinPath(match.url, `/${lesson.id}`);
     this.props.history.push(lessonLink);
     this.setState({selectedIndex: index});
   }
