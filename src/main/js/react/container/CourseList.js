@@ -17,6 +17,15 @@ import courseService from "../service/CourseService";
 const styles = theme => ({
   titleInput: {
     marginRight: theme.spacing.unit
+  },
+  form: {
+    display: "flex"
+  },
+  formGrid: {
+    padding: theme.spacing.unit
+  },
+  tableGrid: {
+    overflowX: "scroll",
   }
 });
 
@@ -88,8 +97,8 @@ class CourseList extends React.Component {
           </Toolbar>
         </AppBar>
         <Grid container direction="column" alignItems="center">
-          <Grid item xs={12}>
-            <form onSubmit={this.createNewCourse}>
+          <Grid item xs={12} className={classes.formGrid}>
+            <form className={classes.form} onSubmit={this.createNewCourse}>
               <TextField
                 label="Title"
                 className={classes.titleInput}
@@ -100,7 +109,7 @@ class CourseList extends React.Component {
               </Button>
             </form>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} className={classes.tableGrid}>
             <Table>
               <TableHead>
                 <TableRow>

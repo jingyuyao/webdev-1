@@ -1,5 +1,5 @@
 import React from "react";
-import {Link, withRouter} from "react-router-dom";
+import {withRouter} from "react-router-dom";
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
 import TableRow from "@material-ui/core/TableRow";
@@ -9,7 +9,15 @@ class CourseRow extends React.Component {
   constructor(props) {
     super(props);
 
+    this.navigate = this.navigate.bind(this);
     this.remove = this.remove.bind(this);
+  }
+
+  navigate() {
+    const match = this.props.match;
+    const course = this.props.course;
+    const courseLink = `${match.url}/${course.id}`;
+    this.props.history.push(courseLink);
   }
 
   remove() {
@@ -17,14 +25,10 @@ class CourseRow extends React.Component {
   }
 
   render() {
-    const match = this.props.match;
     const course = this.props.course;
-    const courseLink = `${match.url}/${course.id}`;
     return (
-      <TableRow>
-        <TableCell>
-          <Link to={courseLink}>{course.title}</Link>
-        </TableCell>
+      <TableRow hover onClick={this.navigate}>
+        <TableCell>{course.title}</TableCell>
         <TableCell>{course.created}</TableCell>
         <TableCell>{course.modified}</TableCell>
         <TableCell>
