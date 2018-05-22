@@ -1,13 +1,18 @@
 package com.jingyuyao.webdev1.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Lesson {
@@ -19,6 +24,9 @@ public class Lesson {
   @JsonProperty(access = Access.WRITE_ONLY)
   @ManyToOne(fetch = FetchType.LAZY)
   private Module module;
+  @JsonIgnore
+  @OneToMany(mappedBy = "lesson", cascade = CascadeType.REMOVE, orphanRemoval = true)
+  private List<Widget> widgets = new ArrayList<>();
 
   public int getId() {
     return id;
@@ -38,5 +46,9 @@ public class Lesson {
 
   public void setModule(Module module) {
     this.module = module;
+  }
+
+  public List<Widget> getWidgets() {
+    return widgets;
   }
 }

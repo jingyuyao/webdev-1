@@ -21,7 +21,7 @@ public class Course {
   private Instant created;
   private Instant modified;
   @JsonIgnore
-  @OneToMany(mappedBy = "course", cascade = CascadeType.REMOVE)
+  @OneToMany(mappedBy = "course", cascade = CascadeType.REMOVE, orphanRemoval = true)
   private List<Module> modules = new ArrayList<>();
 
   public int getId() {
