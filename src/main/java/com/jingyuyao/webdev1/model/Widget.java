@@ -37,7 +37,6 @@ public abstract class Widget {
   private int position;
   @Lob
   private String text;
-  private String className;
   private int width;
   private int height;
   @JsonProperty(access = Access.WRITE_ONLY)
@@ -72,14 +71,6 @@ public abstract class Widget {
     this.text = text;
   }
 
-  public String getClassName() {
-    return className;
-  }
-
-  public void setClassName(String className) {
-    this.className = className;
-  }
-
   public int getWidth() {
     return width;
   }
@@ -111,7 +102,6 @@ public abstract class Widget {
     setName(widget.getName());
     setPosition(widget.getPosition());
     setText(widget.getText());
-    setClassName(widget.getClassName());
     setWidth(widget.getWidth());
     setHeight(widget.getHeight());
   }
