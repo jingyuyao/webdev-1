@@ -14,4 +14,11 @@ public class Image extends Widget {
   public void setSrc(String src) {
     this.src = src;
   }
+
+  @Override
+  public <T extends Widget> void update(T widget) {
+    super.update(widget);
+    Image image = getClass().cast(widget);
+    setSrc(image.getSrc());
+  }
 }

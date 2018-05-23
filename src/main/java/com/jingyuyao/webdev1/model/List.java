@@ -15,6 +15,13 @@ public class List extends Widget {
     this.listType = listType;
   }
 
+  @Override
+  public <T extends Widget> void update(T widget) {
+    super.update(widget);
+    List list = getClass().cast(widget);
+    setListType(list.getListType());
+  }
+
   public enum ListType {
     ORDERED,
     UNORDERED,

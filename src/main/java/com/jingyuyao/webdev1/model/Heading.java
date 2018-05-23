@@ -14,4 +14,11 @@ public class Heading extends Widget {
   public void setSize(int size) {
     this.size = size;
   }
+
+  @Override
+  public <T extends Widget> void update(T widget) {
+    super.update(widget);
+    Heading heading = getClass().cast(widget);
+    setSize(heading.getSize());
+  }
 }

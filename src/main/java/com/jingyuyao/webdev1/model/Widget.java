@@ -2,8 +2,6 @@ package com.jingyuyao.webdev1.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,16 +17,9 @@ import javax.persistence.ManyToOne;
     use = JsonTypeInfo.Id.NAME,
     property = "type"
 )
-@JsonSubTypes({
-    @Type(value = Heading.class, name = "heading"),
-    @Type(value = Paragraph.class, name = "paragraph"),
-    @Type(value = List.class, name = "list"),
-    @Type(value = Image.class, name = "image"),
-    @Type(value = Link.class, name = "link"),
-})
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Widget {
+public abstract class Widget {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -102,5 +93,17 @@ public class Widget {
 
   public Lesson getLesson() {
     return lesson;
+  }
+
+  public <T extends Widget> void update(T widget) {
+    if (!getClass().equals(widget.getClass())) {
+      throw new IllegalArgumentException("Can only update from object of the same class");
+    }
+    setName(widget.getName());
+    setPosition(widget.getPosition());
+    setText(widget.getText());
+    setClassName(widget.getClassName());
+    setWidth(widget.getWidth());
+    setHeight(widget.getHeight());
   }
 }

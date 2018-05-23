@@ -14,4 +14,11 @@ public class Link extends Widget {
   public void setHref(String href) {
     this.href = href;
   }
+
+  @Override
+  public <T extends Widget> void update(T widget) {
+    super.update(widget);
+    Link link = getClass().cast(widget);
+    setHref(link.getHref());
+  }
 }
