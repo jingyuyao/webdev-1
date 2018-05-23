@@ -28,10 +28,10 @@ class CourseRow extends React.Component {
   render() {
     const course = this.props.course;
     return (
-      <TableRow hover onClick={this.navigate}>
-        <TableCell>{course.title}</TableCell>
-        <TableCell>{course.created}</TableCell>
-        <TableCell>{course.modified}</TableCell>
+      <TableRow hover>
+        <TableCell onClick={this.navigate}>{course.title}</TableCell>
+        <TableCell onClick={this.navigate}>{course.created}</TableCell>
+        <TableCell onClick={this.navigate}>{course.modified}</TableCell>
         <TableCell>
           <IconButton onClick={this.remove}>
             <DeleteIcon/>
