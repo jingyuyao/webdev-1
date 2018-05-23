@@ -5,4 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface LessonRepository extends CrudRepository<Lesson, Integer> {
 
+  Iterable<Lesson> findAllByModuleId(int moduleId);
 }

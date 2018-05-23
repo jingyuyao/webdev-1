@@ -2,6 +2,8 @@ package com.jingyuyao.webdev1.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,6 +19,13 @@ import javax.persistence.ManyToOne;
     use = JsonTypeInfo.Id.NAME,
     property = "type"
 )
+@JsonSubTypes({
+    @Type(value = Heading.class),
+    @Type(value = Paragraph.class),
+    @Type(value = List.class),
+    @Type(value = Image.class),
+    @Type(value = Link.class),
+})
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Widget {

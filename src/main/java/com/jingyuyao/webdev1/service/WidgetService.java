@@ -1,9 +1,7 @@
 package com.jingyuyao.webdev1.service;
 
 import com.jingyuyao.webdev1.model.Widget;
-import com.jingyuyao.webdev1.repository.LessonRepository;
 import com.jingyuyao.webdev1.repository.WidgetRepository;
-import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,12 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class WidgetService {
 
   private final WidgetRepository widgetRepository;
-  private final LessonRepository lessonRepository;
 
   @Autowired
-  WidgetService(WidgetRepository widgetRepository, LessonRepository lessonRepository) {
+  WidgetService(WidgetRepository widgetRepository) {
     this.widgetRepository = widgetRepository;
-    this.lessonRepository = lessonRepository;
   }
 
   @PostMapping("/api/widget")
@@ -42,12 +38,7 @@ public class WidgetService {
 
   @GetMapping("/api/lesson/{lessonId}/widgets")
   public Widgets findAllByLessonId(@PathVariable int lessonId) {
-    return
-        new Widgets(
-            lessonRepository
-                .findById(lessonId)
-                .orElseThrow(() -> new NotFoundException("Lesson", lessonId))
-                .getWidgets());
+    return new Widgets(widgetRepository.findAllByLessonId(lessonId));
   }
 
   @PutMapping("/api/widget/{id}")
@@ -79,14 +70,10 @@ public class WidgetService {
    */
   private class Widgets {
 
-    private final ArrayList<Widget> widgets;
+    private final Iterable<Widget> widgets;
 
     private Widgets(Iterable<Widget> widgets) {
-      this.widgets = new ArrayList<>();
-      // Defensive copy is used to mitigate type erasure.
-      // Interesting enough, simply lesson.getWidgets() does not have enough type information.
-      //
-      widgets.forEach(this.widgets::add);
+      this.widgets = widgets;
     }
 
     public Iterable<Widget> getWidgets() {

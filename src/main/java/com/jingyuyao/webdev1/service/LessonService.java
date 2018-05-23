@@ -2,7 +2,6 @@ package com.jingyuyao.webdev1.service;
 
 import com.jingyuyao.webdev1.model.Lesson;
 import com.jingyuyao.webdev1.repository.LessonRepository;
-import com.jingyuyao.webdev1.repository.ModuleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,12 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class LessonService {
 
   private final LessonRepository lessonRepository;
-  private final ModuleRepository moduleRepository;
 
   @Autowired
-  LessonService(LessonRepository lessonRepository, ModuleRepository moduleRepository) {
+  LessonService(LessonRepository lessonRepository) {
     this.lessonRepository = lessonRepository;
-    this.moduleRepository = moduleRepository;
   }
 
   @PostMapping("/api/lesson")
@@ -41,11 +38,7 @@ public class LessonService {
 
   @GetMapping("/api/module/{moduleId}/lessons")
   public Iterable<Lesson> findAllByModuleId(@PathVariable int moduleId) {
-    return
-        moduleRepository
-            .findById(moduleId)
-            .orElseThrow(() -> new NotFoundException("Module", moduleId))
-            .getLessons();
+    return lessonRepository.findAllByModuleId(moduleId);
   }
 
   @PutMapping("/api/lesson/{id}")
