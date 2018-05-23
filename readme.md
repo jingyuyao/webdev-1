@@ -10,6 +10,9 @@ https://jingyuyao-webdev-1.herokuapp.com/
 - Spring Boot service: `src/main/java/com/jingyuyao/webdev1`
 - React client: `src/main/js/react`, `src/main/resources/static/react`
 
+# Deployment
+```./mvnw spring-boot:run```
+
 # Development
 ## Intellij Idea CE
 Create an `Application` run configuration with the database environment variables set.
