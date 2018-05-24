@@ -2,15 +2,13 @@ import React from "react";
 import {matchPath} from "react-router-dom";
 import {withStyles} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import DeleteIcon from "@material-ui/icons/Delete";
-import IconButton from "@material-ui/core/IconButton";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
 import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
 import lessonService from "../service/LessonService";
+import LessonTab from "./LessonTab";
 import {joinPath} from "../util";
 
 const styles = theme => ({
@@ -133,20 +131,11 @@ class LessonTabs extends React.Component {
     const lessonTabs = lessons.map(lesson =>
       <Tab key={lesson.id} label={lesson.title}/>
     );
-    const selectedTab = selectedLesson ? (
-      <Grid container direction="column">
-        <Grid item>
-          <Typography>
-            Viewing lesson {selectedLesson.title}
-          </Typography>
-        </Grid>
-        <Grid item>
-          <IconButton onClick={this.removeLesson.bind(this, selectedLesson.id)}>
-            <DeleteIcon/>
-          </IconButton>
-        </Grid>
-      </Grid>
-    ) : null;
+    const selectedTab = selectedLesson && (
+      <LessonTab
+        lesson={selectedLesson}
+        removeLesson={this.removeLesson}/>
+    );
 
     return (
       <Paper className={classes.root}>

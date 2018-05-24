@@ -60,7 +60,7 @@ class CourseEditor extends React.Component {
               className={classes.title}
               variant="subheading"
               color="inherit">
-              {this.state.course ? this.state.course.title : null}
+              {this.state.course && this.state.course.title}
             </Typography>
           </Toolbar>
         </AppBar>
