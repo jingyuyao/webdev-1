@@ -1,6 +1,6 @@
 import {combineReducers} from "redux";
-import widgets from "./Widgets";
+import widgetsReducer from "./WidgetsReducer";
 
 export default combineReducers({
-  widgets
+  widgets: widgetsReducer
 });
