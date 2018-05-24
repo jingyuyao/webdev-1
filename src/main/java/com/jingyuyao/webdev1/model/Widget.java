@@ -40,7 +40,7 @@ public abstract class Widget {
   private int width;
   private int height;
   @JsonProperty(access = Access.WRITE_ONLY)
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(optional = false, fetch = FetchType.LAZY)
   private Lesson lesson;
 
   public int getId() {

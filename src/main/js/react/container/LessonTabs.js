@@ -90,15 +90,12 @@ class LessonTabs extends React.Component {
     event.preventDefault();
 
     const lesson = {
-      title: this.state.newLessonTitle,
-      module: {
-        id: this.props.match.params.moduleId
-      }
+      title: this.state.newLessonTitle
     };
     this.setState({newLessonTitle: ""});
 
     lessonService
-      .create(lesson)
+      .create(this.props.match.params.moduleId, lesson)
       .then(this.refreshLessons);
   }
 

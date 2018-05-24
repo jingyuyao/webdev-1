@@ -3,7 +3,7 @@ class WidgetService {
     this._baseUrl = "/api/widget";
   }
 
-  create(widget) {
+  create(lessonId, widget) {
     const options = {
       method: "POST",
       headers: {
@@ -11,7 +11,8 @@ class WidgetService {
       },
       body: JSON.stringify(widget)
     };
-    return fetch(this._baseUrl, options).then(response => response.json());
+    return fetch(`/api/lesson/${lessonId}/widget`, options)
+      .then(response => response.json());
   }
 
   findAll() {

@@ -22,7 +22,7 @@ public class Module {
   private int id;
   private String title;
   @JsonProperty(access = Access.WRITE_ONLY)
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(optional = false, fetch = FetchType.LAZY)
   private Course course;
   @JsonIgnore
   @OneToMany(mappedBy = "module", cascade = CascadeType.REMOVE, orphanRemoval = true)

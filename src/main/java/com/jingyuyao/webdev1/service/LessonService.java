@@ -1,7 +1,9 @@
 package com.jingyuyao.webdev1.service;
 
 import com.jingyuyao.webdev1.model.Lesson;
+import com.jingyuyao.webdev1.model.Module;
 import com.jingyuyao.webdev1.repository.LessonRepository;
+import com.jingyuyao.webdev1.repository.ModuleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,14 +17,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class LessonService {
 
   private final LessonRepository lessonRepository;
+  private final ModuleRepository moduleRepository;
 
   @Autowired
-  LessonService(LessonRepository lessonRepository) {
+  LessonService(LessonRepository lessonRepository, ModuleRepository moduleRepository) {
     this.lessonRepository = lessonRepository;
+    this.moduleRepository = moduleRepository;
   }
 
-  @PostMapping("/api/lesson")
-  public Lesson create(@RequestBody Lesson lesson) {
+  @PostMapping("/api/module/{moduleId}/lesson")
+  public Lesson create(@PathVariable int moduleId, @RequestBody Lesson lesson) {
+    Module module =
+        moduleRepository
+            .findById(moduleId)
+            .orElseThrow(() -> new NotFoundException("Module", moduleId));
+    lesson.setModule(module);
     return lessonRepository.save(lesson);
   }
 

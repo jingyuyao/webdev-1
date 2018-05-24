@@ -3,7 +3,7 @@ class LessonService {
     this._baseUrl = "/api/lesson";
   }
 
-  create(lesson) {
+  create(moduleId, lesson) {
     const options = {
       method: "POST",
       headers: {
@@ -11,7 +11,8 @@ class LessonService {
       },
       body: JSON.stringify(lesson)
     };
-    return fetch(this._baseUrl, options).then(response => response.json());
+    return fetch(`/api/module/${moduleId}/lesson`, options)
+      .then(response => response.json());
   }
 
   findAll() {

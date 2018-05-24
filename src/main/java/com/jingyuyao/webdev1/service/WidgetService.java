@@ -1,6 +1,8 @@
 package com.jingyuyao.webdev1.service;
 
+import com.jingyuyao.webdev1.model.Lesson;
 import com.jingyuyao.webdev1.model.Widget;
+import com.jingyuyao.webdev1.repository.LessonRepository;
 import com.jingyuyao.webdev1.repository.WidgetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,14 +17,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class WidgetService {
 
   private final WidgetRepository widgetRepository;
+  private final LessonRepository lessonRepository;
 
   @Autowired
-  WidgetService(WidgetRepository widgetRepository) {
+  WidgetService(WidgetRepository widgetRepository, LessonRepository lessonRepository) {
     this.widgetRepository = widgetRepository;
+    this.lessonRepository = lessonRepository;
   }
 
-  @PostMapping("/api/widget")
-  public Widget create(@RequestBody Widget widget) {
+  @PostMapping("/api/lesson/{lessonId}/widget")
+  public Widget create(@PathVariable int lessonId, @RequestBody Widget widget) {
+    Lesson lesson =
+        lessonRepository
+            .findById(lessonId)
+            .orElseThrow(() -> new NotFoundException("Lesson", lessonId));
+    widget.setLesson(lesson);
     return widgetRepository.save(widget);
   }
 

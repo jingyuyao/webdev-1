@@ -60,15 +60,12 @@ class ModuleList extends React.Component {
     event.preventDefault();
 
     const module = {
-      title: this.state.newModuleTitle,
-      course: {
-        id: this.props.match.params.courseId
-      }
+      title: this.state.newModuleTitle
     };
     this.setState({newModuleTitle: ""});
 
     moduleService
-      .create(module)
+      .create(this.props.match.params.courseId, module)
       .then(this.refreshModules);
   }
 
