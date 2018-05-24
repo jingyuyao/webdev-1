@@ -1,7 +1,6 @@
 import React from "react";
 import {withStyles} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
 import MenuList from "@material-ui/core/MenuList";
 import TextField from "@material-ui/core/TextField";
 import ModuleRow from "../component/ModuleRow";
@@ -9,6 +8,8 @@ import moduleService from "../service/ModuleService";
 
 const styles = theme => ({
   root: {
+    display: "flex",
+    flexDirection: "column",
     padding: theme.spacing.unit
   },
   form: {
@@ -94,27 +95,23 @@ class ModuleList extends React.Component {
     );
 
     return (
-      <Grid container direction="column" className={classes.root}>
-        <Grid item xs={12}>
-          <form
-            className={classes.form}
-            onSubmit={this.createNewModule}>
-            <TextField
-              label="Title"
-              className={classes.titleInput}
-              value={this.state.newModuleTitle}
-              onChange={this.newModuleTitleChanged}/>
-            <Button type="submit" variant="raised" color="primary">
-              New Module
-            </Button>
-          </form>
-        </Grid>
-        <Grid item xs={12}>
-          <MenuList>
-            {moduleRows}
-          </MenuList>
-        </Grid>
-      </Grid>
+      <div className={classes.root}>
+        <form
+          className={classes.form}
+          onSubmit={this.createNewModule}>
+          <TextField
+            label="Title"
+            className={classes.titleInput}
+            value={this.state.newModuleTitle}
+            onChange={this.newModuleTitleChanged}/>
+          <Button type="submit" variant="raised" color="primary">
+            New Module
+          </Button>
+        </form>
+        <MenuList>
+          {moduleRows}
+        </MenuList>
+      </div>
     );
   }
 }

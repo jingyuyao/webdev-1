@@ -1,10 +1,18 @@
 import React from "react";
 import {connect} from "react-redux";
+import {withStyles} from "@material-ui/core/styles";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import IconButton from "@material-ui/core/IconButton";
-import Grid from "@material-ui/core/Grid";
 import widgetService from "../service/WidgetService";
 import * as WidgetsActions from "../action/WidgetsActions";
+
+const styles = theme => ({
+  footer: {
+    alignItems: "center",
+    display: "flex",
+    justifyContent: "flex-end"
+  }
+});
 
 function mapStateToProps(state) {
   const widgetsToDisplay = [
@@ -72,6 +80,8 @@ class WidgetList extends React.Component {
   }
 
   render() {
+    const classes = this.props.classes;
+
     return (
       <React.Fragment>
         <ul>
@@ -79,11 +89,11 @@ class WidgetList extends React.Component {
             <li key={widget.position}>{widget.type}</li>
           ))}
         </ul>
-        <Grid container alignItems="center" justify="flex-end">
+        <div className={classes.footer}>
           <IconButton onClick={this.addWidget}>
             <AddBoxIcon/>
           </IconButton>
-        </Grid>
+        </div>
       </React.Fragment>
     );
   }
@@ -92,4 +102,4 @@ class WidgetList extends React.Component {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(WidgetList);
+)(withStyles(styles)(WidgetList));

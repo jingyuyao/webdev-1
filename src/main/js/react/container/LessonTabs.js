@@ -2,7 +2,6 @@ import React from "react";
 import {matchPath} from "react-router-dom";
 import {withStyles} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
@@ -14,6 +13,7 @@ import {joinPath} from "../util";
 const styles = theme => ({
   root: {
     display: "flex",
+    flexDirection: "column",
     padding: theme.spacing.unit
   },
   form: {
@@ -139,30 +139,22 @@ class LessonTabs extends React.Component {
 
     return (
       <Paper className={classes.root}>
-        <Grid container>
-          <Grid item xs={12}>
-            <form
-              className={classes.form}
-              onSubmit={this.createNewLesson}>
-              <TextField
-                label="Title"
-                className={classes.titleInput}
-                value={this.state.newLessonTitle}
-                onChange={this.newLessonTitleChanged}/>
-              <Button type="submit" variant="raised" color="primary">
-                New Lesson
-              </Button>
-            </form>
-          </Grid>
-          <Grid item xs={12}>
-            <Tabs scrollable value={selectedIndex} onChange={this.tabChanged}>
-              {lessonTabs}
-            </Tabs>
-          </Grid>
-          <Grid item xs={12}>
-            {selectedTab}
-          </Grid>
-        </Grid>
+        <form
+          className={classes.form}
+          onSubmit={this.createNewLesson}>
+          <TextField
+            label="Title"
+            className={classes.titleInput}
+            value={this.state.newLessonTitle}
+            onChange={this.newLessonTitleChanged}/>
+          <Button type="submit" variant="raised" color="primary">
+            New Lesson
+          </Button>
+        </form>
+        <Tabs scrollable value={selectedIndex} onChange={this.tabChanged}>
+          {lessonTabs}
+        </Tabs>
+        {selectedTab}
       </Paper>
     );
   }

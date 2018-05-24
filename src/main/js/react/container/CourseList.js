@@ -2,7 +2,6 @@ import React from "react";
 import {withStyles} from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
 import Table from "@material-ui/core/Table";
 import TableHead from "@material-ui/core/TableHead";
 import TableBody from "@material-ui/core/TableBody";
@@ -15,17 +14,21 @@ import CourseRow from "../component/CourseRow";
 import courseService from "../service/CourseService";
 
 const styles = theme => ({
+  courseList: {
+    alignItems: "center",
+    display: "flex",
+    flexDirection: "column",
+    padding: theme.spacing.unit
+  },
   titleInput: {
     marginRight: theme.spacing.unit
   },
   form: {
     display: "flex"
   },
-  formGrid: {
-    padding: theme.spacing.unit
-  },
-  tableGrid: {
+  tableWrapper: {
     overflowX: "scroll",
+    width: "100%"
   }
 });
 
@@ -79,14 +82,6 @@ class CourseList extends React.Component {
 
   render() {
     const classes = this.props.classes;
-    const courseRows = this.state.courses.map(course =>
-      <CourseRow
-        key={course.id}
-        course={course}
-        removeCourse={this.removeCourse}
-      />
-    );
-
     return (
       <React.Fragment>
         <AppBar position="static">
@@ -96,20 +91,18 @@ class CourseList extends React.Component {
             </Typography>
           </Toolbar>
         </AppBar>
-        <Grid container direction="column" alignItems="center">
-          <Grid item xs={12} className={classes.formGrid}>
-            <form className={classes.form} onSubmit={this.createNewCourse}>
-              <TextField
-                label="Title"
-                className={classes.titleInput}
-                value={this.state.newCourseTitle}
-                onChange={this.newCourseTitleChanged}/>
-              <Button type="submit" variant="raised" color="primary">
-                New Course
-              </Button>
-            </form>
-          </Grid>
-          <Grid item xs={12} className={classes.tableGrid}>
+        <div className={classes.courseList}>
+          <form className={classes.form} onSubmit={this.createNewCourse}>
+            <TextField
+              label="Title"
+              className={classes.titleInput}
+              value={this.state.newCourseTitle}
+              onChange={this.newCourseTitleChanged}/>
+            <Button type="submit" variant="raised" color="primary">
+              New Course
+            </Button>
+          </form>
+          <div className={classes.tableWrapper}>
             <Table>
               <TableHead>
                 <TableRow>
@@ -120,11 +113,16 @@ class CourseList extends React.Component {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {courseRows}
+                {this.state.courses.map(course =>
+                  <CourseRow
+                    key={course.id}
+                    course={course}
+                    removeCourse={this.removeCourse}
+                  />)}
               </TableBody>
             </Table>
-          </Grid>
-        </Grid>
+          </div>
+        </div>
       </React.Fragment>
     );
   }
