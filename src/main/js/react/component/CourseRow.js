@@ -21,17 +21,18 @@ class CourseRow extends React.Component {
     this.props.history.push(courseLink);
   }
 
-  remove() {
+  remove(event) {
+    event.stopPropagation();
     this.props.removeCourse(this.props.course.id);
   }
 
   render() {
     const course = this.props.course;
     return (
-      <TableRow hover>
-        <TableCell onClick={this.navigate}>{course.title}</TableCell>
-        <TableCell onClick={this.navigate}>{course.created}</TableCell>
-        <TableCell onClick={this.navigate}>{course.modified}</TableCell>
+      <TableRow hover onClick={this.navigate}>
+        <TableCell>{course.title}</TableCell>
+        <TableCell>{course.created}</TableCell>
+        <TableCell>{course.modified}</TableCell>
         <TableCell>
           <IconButton onClick={this.remove}>
             <DeleteIcon/>
