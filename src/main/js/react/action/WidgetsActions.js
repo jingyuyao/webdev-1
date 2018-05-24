@@ -1,4 +1,5 @@
 export const WidgetsActionTypes = {
+  WIDGETS_RESET: "WIDGETS_RESET",
   WIDGETS_REFRESH: "WIDGETS_REFRESH",
   WIDGETS_ADD: "WIDGETS_ADD",
   WIDGETS_DELETE: "WIDGETS_DELETE",
@@ -6,6 +7,12 @@ export const WidgetsActionTypes = {
   WIDGETS_SAVING: "WIDGETS_SAVING",
   WIDGETS_TOGGLE_PREVIEW: "WIDGETS_TOGGLE_PREVIEW"
 };
+
+export function widgetsReset() {
+  return {
+    type: WidgetsActionTypes.WIDGETS_RESET
+  };
+}
 
 export function widgetsRefresh(widgets) {
   return {

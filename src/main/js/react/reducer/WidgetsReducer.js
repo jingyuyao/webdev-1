@@ -10,6 +10,8 @@ const initialState = {
 
 function widgetsReducer(state = initialState, action) {
   switch(action.type) {
+    case WidgetsActionTypes.WIDGETS_RESET:
+      return initialState;
     case WidgetsActionTypes.WIDGETS_REFRESH:
       return Object.assign({}, initialState, {
         active: action.payload
@@ -26,6 +28,8 @@ function widgetsReducer(state = initialState, action) {
     case WidgetsActionTypes.WIDGETS_UPDATE:
       return Object.assign({}, state, {
         active: state.active.map(
+          w => w.id === action.payload.id ? action.payload : w),
+        toAdd: state.toAdd.map(
           w => w.id === action.payload.id ? action.payload : w)
       });
     case WidgetsActionTypes.WIDGETS_SAVING:
