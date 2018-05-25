@@ -4,6 +4,8 @@ import {withStyles} from "@material-ui/core/styles";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Switch from "@material-ui/core/Switch";
 import * as WidgetsActions from "../action/WidgetsActions";
 import widgetService from "../service/WidgetService";
 import Widget from "../component/Widget";
@@ -16,6 +18,9 @@ const styles = theme => ({
     alignItems: "center",
     display: "flex",
     justifyContent: "flex-end"
+  },
+  saveButton: {
+    marginRight: theme.spacing.unit
   },
   footer: {
     alignItems: "center",
@@ -70,6 +75,7 @@ class WidgetList extends React.Component {
     this.updateWidget = this.updateWidget.bind(this);
     this.swapPosition = this.swapPosition.bind(this);
     this.saveWidgets = this.saveWidgets.bind(this);
+    this.togglePreview = this.togglePreview.bind(this);
   }
 
   componentDidMount() {
@@ -129,6 +135,10 @@ class WidgetList extends React.Component {
     Promise.all(allPromises).then(this.refreshWidgets);
   }
 
+  togglePreview() {
+    this.props.widgetsTogglePreview();
+  }
+
   render() {
     const classes = this.props.classes;
 
@@ -136,17 +146,27 @@ class WidgetList extends React.Component {
       <div className={classes.root}>
         <div className={classes.header}>
           <Button
+            className={classes.saveButton}
             variant="raised" color="primary"
             disabled={this.props.widgets.saving}
             onClick={this.saveWidgets}>
             {this.props.widgets.saving ? "Saving" : "Save"}
           </Button>
+          <FormControlLabel
+            label="Preview"
+            control={
+              <Switch
+                color="primary"
+                checked={this.props.widgets.preview}
+                onChange={this.togglePreview}/>
+            }/>
         </div>
         {this.props.widgetsToDisplay.map(widget => (
           <Widget
             key={widget.id}
             widget={widget}
             numWidgets={this.props.widgetsToDisplay.length}
+            preview={this.props.widgets.preview}
             removeWidget={this.removeWidget}
             updateWidget={this.updateWidget}
             swapPosition={this.swapPosition}/>))}

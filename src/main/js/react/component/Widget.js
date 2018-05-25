@@ -71,8 +71,73 @@ class Widget extends React.Component {
     }));
   }
 
+  renderForm() {
+    const classes = this.props.classes;
+    const widget = this.props.widget;
+
+    return (
+      <React.Fragment>
+        <div className={classes.header}>
+          <Typography
+            variant="title" className={classes.headerTitle}>
+            {widget.type} widget
+          </Typography>
+          <IconButton
+            onClick={this.swapUp}
+            disabled={widget.position === 0}>
+            <ArrowUpwardIcon/>
+          </IconButton>
+          <IconButton
+            onClick={this.swapDown}
+            disabled={
+              widget.position + 1 === this.props.numWidgets}>
+            <ArrowDownwardIcon/>
+          </IconButton>
+          <FormControl className={classes.widgetTypeControl}>
+            <InputLabel htmlFor={`widget-type-${widget.id}`}>
+              Widget type
+            </InputLabel>
+            <Select
+              value={widget.type}
+              onChange={this.handleWidgetChange}
+              inputProps={{
+                id: `widget-type-${widget.id}`,
+                name: "type"
+              }}>
+              <MenuItem value="Heading">Heading</MenuItem>
+              <MenuItem value="Paragraph">Paragraph</MenuItem>
+              <MenuItem value="Image">Image</MenuItem>
+              <MenuItem value="Link">Link</MenuItem>
+              <MenuItem value="List">List</MenuItem>
+            </Select>
+          </FormControl>
+          <IconButton onClick={this.remove}>
+            <DeleteIcon/>
+          </IconButton>
+        </div>
+        <TextField
+          fullWidth label="Widget name"
+          value={widget.name ? widget.name : ""}
+          inputProps={{name: "name"}}
+          onChange={this.handleWidgetChange}/>
+        <TextField
+          fullWidth multiline label="Widget text"
+          value={widget.text ? widget.text : ""}
+          inputProps={{name: "text"}}
+          onChange={this.handleWidgetChange}/>
+        {this.renderTypeSpecificFields()}
+        <Typography
+          variant="subheading"
+          className={classes.previewBanner}>
+          Preview
+        </Typography>
+      </React.Fragment>
+    );
+  }
+
   renderTypeSpecificFields() {
     const widget = this.props.widget;
+
     switch (widget.type) {
       case "Heading": {
         return (
@@ -173,7 +238,8 @@ class Widget extends React.Component {
         }
 
         const list = widget.text.split("\n");
-        const listItems = list.map(text => <li>{text}</li>);
+        const listItems =
+          list.map(text => <li key={text}>{text}</li>);
         switch (widget.listType) {
           case "UNORDERED": {
             return <ul>{listItems}</ul>;
@@ -194,62 +260,10 @@ class Widget extends React.Component {
 
   render() {
     const classes = this.props.classes;
-    const widget = this.props.widget;
 
     return (
       <div className={classes.root}>
-        <div className={classes.header}>
-          <Typography variant="title" className={classes.headerTitle}>
-            {widget.type} widget
-          </Typography>
-          <IconButton
-            onClick={this.swapUp}
-            disabled={widget.position === 0}>
-            <ArrowUpwardIcon/>
-          </IconButton>
-          <IconButton
-            onClick={this.swapDown}
-            disabled={widget.position + 1 === this.props.numWidgets}>
-            <ArrowDownwardIcon/>
-          </IconButton>
-          <FormControl className={classes.widgetTypeControl}>
-            <InputLabel htmlFor={`widget-type-${widget.id}`}>
-              Widget type
-            </InputLabel>
-            <Select
-              value={widget.type}
-              onChange={this.handleWidgetChange}
-              inputProps={{
-                id: `widget-type-${widget.id}`,
-                name: "type"
-              }}>
-              <MenuItem value="Heading">Heading</MenuItem>
-              <MenuItem value="Paragraph">Paragraph</MenuItem>
-              <MenuItem value="Image">Image</MenuItem>
-              <MenuItem value="Link">Link</MenuItem>
-              <MenuItem value="List">List</MenuItem>
-            </Select>
-          </FormControl>
-          <IconButton onClick={this.remove}>
-            <DeleteIcon/>
-          </IconButton>
-        </div>
-        <TextField
-          fullWidth label="Widget name"
-          value={widget.name ? widget.name : ""}
-          inputProps={{name: "name"}}
-          onChange={this.handleWidgetChange}/>
-        <TextField
-          fullWidth multiline label="Widget text"
-          value={widget.text ? widget.text : ""}
-          inputProps={{name: "text"}}
-          onChange={this.handleWidgetChange}/>
-        {this.renderTypeSpecificFields()}
-        <Typography
-          variant="subheading"
-          className={classes.previewBanner}>
-          Preview
-        </Typography>
+        {!this.props.preview && this.renderForm()}
         {this.renderPreview()}
       </div>
     );

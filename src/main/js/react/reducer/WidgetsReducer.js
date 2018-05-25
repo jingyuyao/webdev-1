@@ -11,8 +11,6 @@ const initialState = {
 };
 
 function widgetsReducer(state = initialState, action) {
-  console.log(state);
-  console.log(action);
   const payload = action.payload;
 
   switch(action.type) {
