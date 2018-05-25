@@ -85,6 +85,25 @@ function widgetsReducer(state = initialState, action) {
         toAdd: state.toAdd.map(replaceOldWidget)
       });
     }
+    case WidgetsActionTypes.WIDGETS_SWAP_POSITION: {
+      const positionA = payload[0];
+      const positionB = payload[1];
+      const swap =
+        widget =>
+          widget.position === positionA
+            ? Object.assign({}, widget, {
+                position: positionB
+              })
+            : widget.position === positionB
+              ? Object.assign({}, widget, {
+                  position: positionA
+                })
+              : widget;
+      return Object.assign({}, state, {
+        active: state.active.map(swap),
+        toAdd: state.toAdd.map(swap)
+      });
+    }
     case WidgetsActionTypes.WIDGETS_SAVING: {
       return Object.assign({}, state, {
         saving: true

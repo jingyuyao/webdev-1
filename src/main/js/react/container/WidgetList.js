@@ -49,6 +49,10 @@ function mapDispatchToProps(dispatch) {
       widget => dispatch(WidgetsActions.widgetsDelete(widget)),
     widgetsUpdate:
       widget => dispatch(WidgetsActions.widgetsUpdate(widget)),
+    widgetsSwapPosition:
+      (positionA, positionB) =>
+        dispatch(
+          WidgetsActions.widgetsSwapPosition(positionA, positionB)),
     widgetsSaving:
       () => dispatch(WidgetsActions.widgetsSaving()),
     widgetsTogglePreview:
@@ -64,6 +68,7 @@ class WidgetList extends React.Component {
     this.addWidget = this.addWidget.bind(this);
     this.removeWidget = this.removeWidget.bind(this);
     this.updateWidget = this.updateWidget.bind(this);
+    this.swapPosition = this.swapPosition.bind(this);
     this.saveWidgets = this.saveWidgets.bind(this);
   }
 
@@ -98,6 +103,10 @@ class WidgetList extends React.Component {
 
   updateWidget(widget) {
     this.props.widgetsUpdate(widget);
+  }
+
+  swapPosition(positionA, positionB) {
+    this.props.widgetsSwapPosition(positionA, positionB);
   }
 
   saveWidgets() {
@@ -137,8 +146,10 @@ class WidgetList extends React.Component {
           <Widget
             key={widget.id}
             widget={widget}
+            numWidgets={this.props.widgetsToDisplay.length}
             removeWidget={this.removeWidget}
-            updateWidget={this.updateWidget}/>))}
+            updateWidget={this.updateWidget}
+            swapPosition={this.swapPosition}/>))}
         <div className={classes.footer}>
           <IconButton onClick={this.addWidget}>
             <AddBoxIcon/>

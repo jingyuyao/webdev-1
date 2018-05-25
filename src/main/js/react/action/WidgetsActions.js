@@ -4,6 +4,7 @@ export const WidgetsActionTypes = {
   WIDGETS_ADD: "WIDGETS_ADD",
   WIDGETS_DELETE: "WIDGETS_DELETE",
   WIDGETS_UPDATE: "WIDGETS_UPDATE",
+  WIDGETS_SWAP_POSITION: "WIDGETS_SWAP_POSITION",
   WIDGETS_SAVING: "WIDGETS_SAVING",
   WIDGETS_TOGGLE_PREVIEW: "WIDGETS_TOGGLE_PREVIEW"
 };
@@ -39,6 +40,13 @@ export function widgetsUpdate(widget) {
   return {
     type: WidgetsActionTypes.WIDGETS_UPDATE,
     payload: widget
+  };
+}
+
+export function widgetsSwapPosition(positionA, positionB) {
+  return {
+    type: WidgetsActionTypes.WIDGETS_SWAP_POSITION,
+    payload: [positionA, positionB]
   };
 }
 

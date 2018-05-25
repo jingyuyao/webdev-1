@@ -1,5 +1,7 @@
 import React from "react";
 import {withStyles} from "@material-ui/core/styles";
+import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
+import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
 import TextField from "@material-ui/core/TextField";
@@ -34,8 +36,20 @@ class Widget extends React.Component {
   constructor(props) {
     super(props);
 
+    this.swapUp = this.swapUp.bind(this);
+    this.swapDown = this.swapDown.bind(this);
     this.remove = this.remove.bind(this);
     this.handleWidgetChange = this.handleWidgetChange.bind(this);
+  }
+
+  swapUp() {
+    const position = this.props.widget.position;
+    this.props.swapPosition(position, position - 1);
+  }
+
+  swapDown() {
+    const position = this.props.widget.position;
+    this.props.swapPosition(position, position + 1);
   }
 
   remove() {
@@ -124,6 +138,16 @@ class Widget extends React.Component {
           <Typography variant="title" className={classes.headerTitle}>
             {widget.type} widget
           </Typography>
+          {widget.position !== 0 &&
+            <IconButton onClick={this.swapUp}>
+              <ArrowUpwardIcon/>
+            </IconButton>
+          }
+          {widget.position + 1 < this.props.numWidgets &&
+            <IconButton onClick={this.swapDown}>
+              <ArrowDownwardIcon/>
+            </IconButton>
+          }
           <FormControl className={classes.widgetTypeControl}>
             <InputLabel htmlFor={`widget-type-${widget.id}`}>
               Widget type
