@@ -4,6 +4,10 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
 
 const styles = theme => ({
   root: {
@@ -34,6 +38,31 @@ class Widget extends React.Component {
     this.props.removeWidget(this.props.widget.id);
   }
 
+  renderTypeSpecificFields() {
+    const widget = this.props.widget;
+    switch (widget.type) {
+      case "Heading":
+        return (
+          <FormControl fullWidth>
+            <InputLabel htmlFor={`size-${widget.position}`}>
+              Size
+            </InputLabel>
+            <Select
+              value={widget.size}
+              inputProps={{
+                id: `size-${widget.position}`
+              }}>
+              <MenuItem value={1}>Heading 1</MenuItem>
+              <MenuItem value={2}>Heading 2</MenuItem>
+              <MenuItem value={3}>Heading 3</MenuItem>
+            </Select>
+          </FormControl>
+        );
+      default:
+        return null;
+    }
+  }
+
   render() {
     const classes = this.props.classes;
     const widget = this.props.widget;
@@ -50,6 +79,7 @@ class Widget extends React.Component {
         </div>
         <TextField label="Widget name" fullWidth/>
         <TextField label="Widget text" fullWidth/>
+        {this.renderTypeSpecificFields()}
       </div>
     );
   }
