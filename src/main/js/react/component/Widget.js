@@ -1,5 +1,7 @@
 import React from "react";
 import {withStyles} from "@material-ui/core/styles";
+import DeleteIcon from "@material-ui/icons/Delete";
+import IconButton from "@material-ui/core/IconButton";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 
@@ -24,6 +26,12 @@ const styles = theme => ({
 class Widget extends React.Component {
   constructor(props) {
     super(props);
+
+    this.remove = this.remove.bind(this);
+  }
+
+  remove() {
+    this.props.removeWidget(this.props.widget.id);
   }
 
   render() {
@@ -36,6 +44,9 @@ class Widget extends React.Component {
           <Typography variant="title" className={classes.headerTitle}>
             {widget.type} widget
           </Typography>
+          <IconButton onClick={this.remove}>
+            <DeleteIcon/>
+          </IconButton>
         </div>
         <TextField label="Widget name" fullWidth/>
         <TextField label="Widget text" fullWidth/>

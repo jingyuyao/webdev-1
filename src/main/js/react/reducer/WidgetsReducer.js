@@ -22,10 +22,10 @@ function widgetsReducer(state = initialState, action) {
       });
     case WidgetsActionTypes.WIDGETS_DELETE:
       const deletedFromActive =
-        state.active.find(w => w.id === action.payload.id);
+        state.active.find(w => w.id === action.payload);
       return Object.assign({}, state, {
-        active: state.active.filter(w => w.id !== action.payload.id),
-        toAdd: state.toAdd.filter(w => w.id !== action.payload.id),
+        active: state.active.filter(w => w.id !== action.payload),
+        toAdd: state.toAdd.filter(w => w.id !== action.payload),
         toDelete:
           deletedFromActive
             ? [...state.toDelete, action.payload]

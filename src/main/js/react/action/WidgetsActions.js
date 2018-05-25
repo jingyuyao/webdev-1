@@ -28,10 +28,10 @@ export function widgetsAdd(widget) {
   };
 }
 
-export function widgetsDelete(widget) {
+export function widgetsDelete(widgetId) {
   return {
     type: WidgetsActionTypes.WIDGETS_DELETE,
-    payload: widget
+    payload: widgetId
   };
 }
 

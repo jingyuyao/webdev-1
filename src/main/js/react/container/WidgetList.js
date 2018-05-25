@@ -46,7 +46,7 @@ function mapDispatchToProps(dispatch) {
     widgetsAdd:
       widget => dispatch(WidgetsActions.widgetsAdd(widget)),
     widgetsDelete:
-      widget => dispatch(WidgetsActions.widgetsDelete(widget)),
+      widgetId => dispatch(WidgetsActions.widgetsDelete(widgetId)),
     widgetsUpdate:
       widget => dispatch(WidgetsActions.widgetsUpdate(widget)),
     widgetsSaving:
@@ -62,6 +62,7 @@ class WidgetList extends React.Component {
 
     this.refreshWidgets = this.refreshWidgets.bind(this);
     this.addWidget = this.addWidget.bind(this);
+    this.removeWidget = this.removeWidget.bind(this);
     this.saveWidgets = this.saveWidgets.bind(this);
   }
 
@@ -89,6 +90,10 @@ class WidgetList extends React.Component {
       position: this.props.widgetsToDisplay.length
     };
     this.props.widgetsAdd(defaultWidget);
+  }
+
+  removeWidget(widgetId) {
+    this.props.widgetsDelete(widgetId);
   }
 
   saveWidgets() {
@@ -126,7 +131,8 @@ class WidgetList extends React.Component {
           // Can't use ID as key since temp widgets don't have it
           <Widget
             key={widget.position}
-            widget={widget}/>))}
+            widget={widget}
+            removeWidget={this.removeWidget}/>))}
         <div className={classes.footer}>
           <IconButton onClick={this.addWidget}>
             <AddBoxIcon/>
