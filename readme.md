@@ -10,6 +10,10 @@ https://jingyuyao-webdev-1.herokuapp.com/
 - Spring Boot service: `src/main/java/com/jingyuyao/webdev1`
 - React client: `src/main/js/react`, `src/main/resources/static/react`
 
+## Assignment 3 - React + Redux
+- Spring Boot service: `src/main/java/com/jingyuyao/webdev1`
+- React client: `src/main/js/react`, `src/main/resources/static/react`
+
 # Deployment
 ```./mvnw spring-boot:run```
 
