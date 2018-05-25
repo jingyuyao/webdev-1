@@ -35,16 +35,16 @@ class Widget extends React.Component {
     super(props);
 
     this.remove = this.remove.bind(this);
-    this.handleWidgetTypeChange = this.handleWidgetTypeChange.bind(this);
+    this.handleWidgetChange = this.handleWidgetChange.bind(this);
   }
 
   remove() {
     this.props.removeWidget(this.props.widget.id);
   }
 
-  handleWidgetTypeChange(event) {
+  handleWidgetChange(event) {
     this.props.updateWidget(Object.assign({}, this.props.widget, {
-      type: event.target.value
+      [event.target.name]: event.target.value
     }));
   }
 
@@ -60,8 +60,10 @@ class Widget extends React.Component {
             <Select
               value={widget.size ? widget.size : 1}
               inputProps={{
-                id: `size-${widget.id}`
-              }}>
+                id: `size-${widget.id}`,
+                name: "size"
+              }}
+              onChange={this.handleWidgetChange}>
               <MenuItem value={1}>Heading 1</MenuItem>
               <MenuItem value={2}>Heading 2</MenuItem>
               <MenuItem value={3}>Heading 3</MenuItem>
@@ -70,11 +72,19 @@ class Widget extends React.Component {
         );
       case "Image":
         return (
-          <TextField label="Source" fullWidth/>
+        <TextField
+          fullWidth label="Source"
+          value={widget.src}
+          inputProps={{name: "src"}}
+          onChange={this.handleWidgetChange}/>
         );
       case "Link":
         return (
-          <TextField label="Hyperlink" fullWidth/>
+        <TextField
+          fullWidth label="Hyperlink"
+          value={widget.href}
+          inputProps={{name: "href"}}
+          onChange={this.handleWidgetChange}/>
         );
       case "List":
         return (
@@ -85,8 +95,10 @@ class Widget extends React.Component {
             <Select
               value={widget.listType ? widget.listType : "UNORDERED"}
               inputProps={{
-                id: `list-type-${widget.id}`
-              }}>
+                id: `list-type-${widget.id}`,
+                name: "listType"
+              }}
+              onChange={this.handleWidgetChange}>
               <MenuItem value="UNORDERED">Unordered list</MenuItem>
               <MenuItem value="ORDERED">Ordered list</MenuItem>
             </Select>
@@ -113,9 +125,10 @@ class Widget extends React.Component {
             </InputLabel>
             <Select
               value={widget.type}
-              onChange={this.handleWidgetTypeChange}
+              onChange={this.handleWidgetChange}
               inputProps={{
-                id: `widget-type-${widget.id}`
+                id: `widget-type-${widget.id}`,
+                name: "type"
               }}>
               <MenuItem value="Heading">Heading</MenuItem>
               <MenuItem value="Paragraph">Paragraph</MenuItem>
@@ -128,8 +141,16 @@ class Widget extends React.Component {
             <DeleteIcon/>
           </IconButton>
         </div>
-        <TextField label="Widget name" fullWidth/>
-        <TextField label="Widget text" fullWidth/>
+        <TextField
+          fullWidth label="Widget name"
+          value={widget.name}
+          inputProps={{name: "name"}}
+          onChange={this.handleWidgetChange}/>
+        <TextField
+          fullWidth label="Widget text"
+          value={widget.text}
+          inputProps={{name: "text"}}
+          onChange={this.handleWidgetChange}/>
         {this.renderTypeSpecificFields()}
       </div>
     );
