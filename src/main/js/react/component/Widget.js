@@ -29,6 +29,15 @@ const styles = theme => ({
   },
   widgetTypeControl: {
     minWidth: 100
+  },
+  previewBanner: {
+    borderTop: `1px solid ${theme.palette.grey[300]}`,
+    marginTop: theme.spacing.unit,
+    marginBottom: theme.spacing.unit
+  },
+  imageContainer: {
+    display: "flex",
+    justifyContent: "center"
   }
 });
 
@@ -87,20 +96,20 @@ class Widget extends React.Component {
       }
       case "Image": {
         return (
-        <TextField
-          fullWidth label="Source"
-          value={widget.src ? widget.src : ""}
-          inputProps={{name: "src"}}
-          onChange={this.handleWidgetChange}/>
+          <TextField
+            fullWidth label="Source"
+            value={widget.src ? widget.src : ""}
+            inputProps={{name: "src"}}
+            onChange={this.handleWidgetChange}/>
         );
       }
       case "Link": {
         return (
-        <TextField
-          fullWidth label="Hyperlink"
-          value={widget.href ? widget.href : ""}
-          inputProps={{name: "href"}}
-          onChange={this.handleWidgetChange}/>
+          <TextField
+            fullWidth label="Hyperlink"
+            value={widget.href ? widget.href : ""}
+            inputProps={{name: "href"}}
+            onChange={this.handleWidgetChange}/>
         );
       }
       case "List": {
@@ -121,6 +130,61 @@ class Widget extends React.Component {
             </Select>
           </FormControl>
         );
+      }
+      default: {
+        return null;
+      }
+    }
+  }
+
+  renderPreview() {
+    const classes = this.props.classes;
+    const widget = this.props.widget;
+
+    switch(widget.type) {
+      case "Heading": {
+        switch (widget.size) {
+          case 1:
+            return <h1>{widget.text}</h1>;
+          case 2:
+            return <h2>{widget.text}</h2>;
+          case 3:
+            return <h3>{widget.text}</h3>;
+          default:
+            return <h1>{widget.text}</h1>;
+        }
+      }
+      case "Paragraph": {
+        return <p>{widget.text}</p>;
+      }
+      case "Image": {
+        return (
+          <div className={classes.imageContainer}>
+            <img src={widget.src} alt={widget.text}/>
+          </div>
+        );
+      }
+      case "Link": {
+        return <a href={widget.href} target="_blank">{widget.text}</a>;
+      }
+      case "List": {
+        if (!widget.text) {
+          return null;
+        }
+
+        const list = widget.text.split("\n");
+        const listItems = list.map(text => <li>{text}</li>);
+        switch (widget.listType) {
+          case "UNORDERED": {
+            return <ul>{listItems}</ul>;
+          }
+          case "ORDERED": {
+            return <ol>{listItems}</ol>;
+          }
+          default: {
+            return <ul>{listItems}</ul>;
+          }
+        }
       }
       default: {
         return null;
@@ -176,11 +240,17 @@ class Widget extends React.Component {
           inputProps={{name: "name"}}
           onChange={this.handleWidgetChange}/>
         <TextField
-          fullWidth label="Widget text"
+          fullWidth multiline label="Widget text"
           value={widget.text ? widget.text : ""}
           inputProps={{name: "text"}}
           onChange={this.handleWidgetChange}/>
         {this.renderTypeSpecificFields()}
+        <Typography
+          variant="subheading"
+          className={classes.previewBanner}>
+          Preview
+        </Typography>
+        {this.renderPreview()}
       </div>
     );
   }
