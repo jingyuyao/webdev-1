@@ -21,9 +21,15 @@ function widgetsReducer(state = initialState, action) {
         toAdd: [...state.toAdd, action.payload]
       });
     case WidgetsActionTypes.WIDGETS_DELETE:
+      const deletedFromActive =
+        state.active.find(w => w.id === action.payload.id);
       return Object.assign({}, state, {
         active: state.active.filter(w => w.id !== action.payload.id),
-        toDelete: [...state.toDelete, action.payload]
+        toAdd: state.toAdd.filter(w => w.id !== action.payload.id),
+        toDelete:
+          deletedFromActive
+            ? [...state.toDelete, action.payload]
+            : state.toDelete
       });
     case WidgetsActionTypes.WIDGETS_UPDATE:
       return Object.assign({}, state, {
@@ -36,7 +42,7 @@ function widgetsReducer(state = initialState, action) {
       return Object.assign({}, state, {
         saving: true
       });
-    case WidgetsActionTypes.WIDGETS_PREVIEW:
+    case WidgetsActionTypes.WIDGETS_TOGGLE_PREVIEW:
       return Object.assign({}, state, {
         preview: !state.preview
       });
