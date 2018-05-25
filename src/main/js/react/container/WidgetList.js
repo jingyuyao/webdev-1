@@ -63,6 +63,7 @@ class WidgetList extends React.Component {
     this.refreshWidgets = this.refreshWidgets.bind(this);
     this.addWidget = this.addWidget.bind(this);
     this.removeWidget = this.removeWidget.bind(this);
+    this.updateWidget = this.updateWidget.bind(this);
     this.saveWidgets = this.saveWidgets.bind(this);
   }
 
@@ -86,7 +87,6 @@ class WidgetList extends React.Component {
   addWidget() {
     const defaultWidget = {
       type: "Heading",
-      size: 1,
       position: this.props.widgetsToDisplay.length
     };
     this.props.widgetsAdd(defaultWidget);
@@ -94,6 +94,20 @@ class WidgetList extends React.Component {
 
   removeWidget(widgetId) {
     this.props.widgetsDelete(widgetId);
+  }
+
+  updateWidget(widget) {
+    const oldWidget =
+      this.props.widgetsToDisplay.find(w => w.id === widget.id);
+    if (oldWidget.type === widget.type) {
+      this.props.widgetsUpdate(widget);
+    } else {
+      // Our service backend can't handle type changes. We need to
+      // delete the old widget and create a new one with all of its
+      // original properties.
+      this.props.widgetsDelete(oldWidget.id);
+      this.props.widgetsAdd(widget);
+    }
   }
 
   saveWidgets() {
@@ -128,11 +142,11 @@ class WidgetList extends React.Component {
           </Button>
         </div>
         {this.props.widgetsToDisplay.map(widget => (
-          // Can't use ID as key since temp widgets don't have it
           <Widget
-            key={widget.position}
+            key={widget.id}
             widget={widget}
-            removeWidget={this.removeWidget}/>))}
+            removeWidget={this.removeWidget}
+            updateWidget={this.updateWidget}/>))}
         <div className={classes.footer}>
           <IconButton onClick={this.addWidget}>
             <AddBoxIcon/>

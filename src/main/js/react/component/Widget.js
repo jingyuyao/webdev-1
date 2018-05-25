@@ -24,6 +24,9 @@ const styles = theme => ({
   },
   headerTitle: {
     flexGrow: 1
+  },
+  widgetTypeControl: {
+    minWidth: 100
   }
 });
 
@@ -32,10 +35,17 @@ class Widget extends React.Component {
     super(props);
 
     this.remove = this.remove.bind(this);
+    this.handleWidgetTypeChange = this.handleWidgetTypeChange.bind(this);
   }
 
   remove() {
     this.props.removeWidget(this.props.widget.id);
+  }
+
+  handleWidgetTypeChange(event) {
+    this.props.updateWidget(Object.assign({}, this.props.widget, {
+      type: event.target.value
+    }));
   }
 
   renderTypeSpecificFields() {
@@ -44,13 +54,13 @@ class Widget extends React.Component {
       case "Heading":
         return (
           <FormControl fullWidth>
-            <InputLabel htmlFor={`size-${widget.position}`}>
+            <InputLabel htmlFor={`size-${widget.id}`}>
               Size
             </InputLabel>
             <Select
-              value={widget.size}
+              value={widget.size ? widget.size : 1}
               inputProps={{
-                id: `size-${widget.position}`
+                id: `size-${widget.id}`
               }}>
               <MenuItem value={1}>Heading 1</MenuItem>
               <MenuItem value={2}>Heading 2</MenuItem>
@@ -69,13 +79,13 @@ class Widget extends React.Component {
       case "List":
         return (
           <FormControl fullWidth>
-            <InputLabel htmlFor={`list-type-${widget.position}`}>
+            <InputLabel htmlFor={`list-type-${widget.id}`}>
               List type
             </InputLabel>
             <Select
-              value={widget.listType}
+              value={widget.listType ? widget.listType : "UNORDERED"}
               inputProps={{
-                id: `list-type-${widget.position}`
+                id: `list-type-${widget.id}`
               }}>
               <MenuItem value="UNORDERED">Unordered list</MenuItem>
               <MenuItem value="ORDERED">Ordered list</MenuItem>
@@ -97,14 +107,15 @@ class Widget extends React.Component {
           <Typography variant="title" className={classes.headerTitle}>
             {widget.type} widget
           </Typography>
-          <FormControl>
-            <InputLabel htmlFor={`widget-type-${widget.position}`}>
+          <FormControl className={classes.widgetTypeControl}>
+            <InputLabel htmlFor={`widget-type-${widget.id}`}>
               Widget type
             </InputLabel>
             <Select
               value={widget.type}
+              onChange={this.handleWidgetTypeChange}
               inputProps={{
-                id: `widget-type-${widget.position}`
+                id: `widget-type-${widget.id}`
               }}>
               <MenuItem value="Heading">Heading</MenuItem>
               <MenuItem value="Paragraph">Paragraph</MenuItem>
