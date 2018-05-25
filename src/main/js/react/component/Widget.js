@@ -97,6 +97,22 @@ class Widget extends React.Component {
           <Typography variant="title" className={classes.headerTitle}>
             {widget.type} widget
           </Typography>
+          <FormControl>
+            <InputLabel htmlFor={`widget-type-${widget.position}`}>
+              Widget type
+            </InputLabel>
+            <Select
+              value={widget.type}
+              inputProps={{
+                id: `widget-type-${widget.position}`
+              }}>
+              <MenuItem value="Heading">Heading</MenuItem>
+              <MenuItem value="Paragraph">Paragraph</MenuItem>
+              <MenuItem value="Image">Image</MenuItem>
+              <MenuItem value="Link">Link</MenuItem>
+              <MenuItem value="List">List</MenuItem>
+            </Select>
+          </FormControl>
           <IconButton onClick={this.remove}>
             <DeleteIcon/>
           </IconButton>
