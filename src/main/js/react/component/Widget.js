@@ -138,16 +138,16 @@ class Widget extends React.Component {
           <Typography variant="title" className={classes.headerTitle}>
             {widget.type} widget
           </Typography>
-          {widget.position !== 0 &&
-            <IconButton onClick={this.swapUp}>
-              <ArrowUpwardIcon/>
-            </IconButton>
-          }
-          {widget.position + 1 < this.props.numWidgets &&
-            <IconButton onClick={this.swapDown}>
-              <ArrowDownwardIcon/>
-            </IconButton>
-          }
+          <IconButton
+            onClick={this.swapUp}
+            disabled={widget.position === 0}>
+            <ArrowUpwardIcon/>
+          </IconButton>
+          <IconButton
+            onClick={this.swapDown}
+            disabled={widget.position + 1 === this.props.numWidgets}>
+            <ArrowDownwardIcon/>
+          </IconButton>
           <FormControl className={classes.widgetTypeControl}>
             <InputLabel htmlFor={`widget-type-${widget.id}`}>
               Widget type
