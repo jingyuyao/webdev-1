@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 @Entity
 public class List extends Widget {
 
-  private ListType listType;
+  private ListType listType = ListType.UNORDERED;
 
   public ListType getListType() {
     return listType;

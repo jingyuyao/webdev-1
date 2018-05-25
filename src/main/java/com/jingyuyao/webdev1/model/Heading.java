@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 @Entity
 public class Heading extends Widget {
 
-  private int size;
+  private int size = 1;
 
   public int getSize() {
     return size;
