@@ -40,6 +40,21 @@ function widgetsReducer(state = initialState, action) {
             : state.toDelete
       });
     case WidgetsActionTypes.WIDGETS_UPDATE:
+      const inActive =
+        state.active.find(w => w.id === action.payload.id);
+      // Our service backend can't handle type changes. We need to
+      // delete the old widget and create a new one with all of its
+      // original properties if it already exists in the database.
+      if (inActive && inActive.type !== action.payload.type) {
+        return Object.assign({}, state, {
+          active: state.active.filter(
+            w => w.id !== action.payload.id),
+          toDelete: [...state.toDelete, action.payload.id],
+          toAdd: [...state.toAdd, action.payload]
+        });
+      }
+
+      // Else we can just replace the widget in place.
       return Object.assign({}, state, {
         active: state.active.map(
           w => w.id === action.payload.id ? action.payload : w),

@@ -97,17 +97,7 @@ class WidgetList extends React.Component {
   }
 
   updateWidget(widget) {
-    const oldWidget =
-      this.props.widgetsToDisplay.find(w => w.id === widget.id);
-    if (oldWidget.type === widget.type) {
-      this.props.widgetsUpdate(widget);
-    } else {
-      // Our service backend can't handle type changes. We need to
-      // delete the old widget and create a new one with all of its
-      // original properties.
-      this.props.widgetsDelete(oldWidget.id);
-      this.props.widgetsAdd(widget);
-    }
+    this.props.widgetsUpdate(widget);
   }
 
   saveWidgets() {

@@ -74,7 +74,7 @@ class Widget extends React.Component {
         return (
         <TextField
           fullWidth label="Source"
-          value={widget.src}
+          value={widget.src ? widget.src : ""}
           inputProps={{name: "src"}}
           onChange={this.handleWidgetChange}/>
         );
@@ -82,7 +82,7 @@ class Widget extends React.Component {
         return (
         <TextField
           fullWidth label="Hyperlink"
-          value={widget.href}
+          value={widget.href ? widget.href : ""}
           inputProps={{name: "href"}}
           onChange={this.handleWidgetChange}/>
         );
@@ -143,12 +143,12 @@ class Widget extends React.Component {
         </div>
         <TextField
           fullWidth label="Widget name"
-          value={widget.name}
+          value={widget.name ? widget.name : ""}
           inputProps={{name: "name"}}
           onChange={this.handleWidgetChange}/>
         <TextField
           fullWidth label="Widget text"
-          value={widget.text}
+          value={widget.text ? widget.text : ""}
           inputProps={{name: "text"}}
           onChange={this.handleWidgetChange}/>
         {this.renderTypeSpecificFields()}
