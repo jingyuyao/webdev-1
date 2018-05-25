@@ -58,6 +58,30 @@ class Widget extends React.Component {
             </Select>
           </FormControl>
         );
+      case "Image":
+        return (
+          <TextField label="Source" fullWidth/>
+        );
+      case "Link":
+        return (
+          <TextField label="Hyperlink" fullWidth/>
+        );
+      case "List":
+        return (
+          <FormControl fullWidth>
+            <InputLabel htmlFor={`list-type-${widget.position}`}>
+              List type
+            </InputLabel>
+            <Select
+              value={widget.listType}
+              inputProps={{
+                id: `list-type-${widget.position}`
+              }}>
+              <MenuItem value="UNORDERED">Unordered list</MenuItem>
+              <MenuItem value="ORDERED">Ordered list</MenuItem>
+            </Select>
+          </FormControl>
+        );
       default:
         return null;
     }
