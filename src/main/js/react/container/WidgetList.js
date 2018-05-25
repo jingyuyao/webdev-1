@@ -4,8 +4,9 @@ import {withStyles} from "@material-ui/core/styles";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
-import widgetService from "../service/WidgetService";
 import * as WidgetsActions from "../action/WidgetsActions";
+import widgetService from "../service/WidgetService";
+import Widget from "../component/Widget";
 
 const styles = theme => ({
   root: {
@@ -121,11 +122,11 @@ class WidgetList extends React.Component {
             {this.props.widgets.saving ? "Saving" : "Save"}
           </Button>
         </div>
-        <ul>
-          {this.props.widgetsToDisplay.map(widget => (
-            <li key={widget.position}>{widget.type}</li>
-          ))}
-        </ul>
+        {this.props.widgetsToDisplay.map(widget => (
+          // Can't use ID as key since temp widgets don't have it
+          <Widget
+            key={widget.position}
+            widget={widget}/>))}
         <div className={classes.footer}>
           <IconButton onClick={this.addWidget}>
             <AddBoxIcon/>

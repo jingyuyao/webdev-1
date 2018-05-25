@@ -8,8 +8,7 @@ import WidgetList from "./WidgetList";
 const styles = theme => ({
   header: {
     alignItems: "center",
-    display: "flex",
-    justifyContent: "space-between"
+    display: "flex"
   }
 });
 
