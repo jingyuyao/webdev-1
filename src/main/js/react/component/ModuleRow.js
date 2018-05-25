@@ -32,7 +32,7 @@ class ModuleRow extends React.Component {
       path: `${match.path}/:moduleId`
     });
     const active =
-      moduleMatch !== null && String(this.props.module.id) === moduleMatch.params.moduleId;
+      moduleMatch && String(this.props.module.id) === moduleMatch.params.moduleId;
     return (
       <MenuItem selected={active} onClick={this.navigate}>
         <ListItemText>
