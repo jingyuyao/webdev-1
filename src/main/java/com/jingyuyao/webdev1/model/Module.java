@@ -19,6 +19,7 @@ public class Module {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @JsonProperty(access = Access.READ_ONLY)
   private int id;
   private String title;
   @JsonProperty(access = Access.WRITE_ONLY)

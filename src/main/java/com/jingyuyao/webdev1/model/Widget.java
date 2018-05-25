@@ -32,6 +32,7 @@ public abstract class Widget {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @JsonProperty(access = Access.READ_ONLY)
   private int id;
   private String name;
   private int position;

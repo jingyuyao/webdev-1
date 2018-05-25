@@ -1,6 +1,8 @@
 package com.jingyuyao.webdev1.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,7 @@ public class Course {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @JsonProperty(access = Access.READ_ONLY)
   private int id;
   private String title;
   private Instant created;
