@@ -39,7 +39,7 @@ class Widget extends React.Component {
   }
 
   remove() {
-    this.props.removeWidget(this.props.widget.id);
+    this.props.removeWidget(this.props.widget);
   }
 
   handleWidgetChange(event) {
@@ -51,7 +51,7 @@ class Widget extends React.Component {
   renderTypeSpecificFields() {
     const widget = this.props.widget;
     switch (widget.type) {
-      case "Heading":
+      case "Heading": {
         return (
           <FormControl fullWidth>
             <InputLabel htmlFor={`size-${widget.id}`}>
@@ -70,7 +70,8 @@ class Widget extends React.Component {
             </Select>
           </FormControl>
         );
-      case "Image":
+      }
+      case "Image": {
         return (
         <TextField
           fullWidth label="Source"
@@ -78,7 +79,8 @@ class Widget extends React.Component {
           inputProps={{name: "src"}}
           onChange={this.handleWidgetChange}/>
         );
-      case "Link":
+      }
+      case "Link": {
         return (
         <TextField
           fullWidth label="Hyperlink"
@@ -86,7 +88,8 @@ class Widget extends React.Component {
           inputProps={{name: "href"}}
           onChange={this.handleWidgetChange}/>
         );
-      case "List":
+      }
+      case "List": {
         return (
           <FormControl fullWidth>
             <InputLabel htmlFor={`list-type-${widget.id}`}>
@@ -104,8 +107,10 @@ class Widget extends React.Component {
             </Select>
           </FormControl>
         );
-      default:
+      }
+      default: {
         return null;
+      }
     }
   }
 

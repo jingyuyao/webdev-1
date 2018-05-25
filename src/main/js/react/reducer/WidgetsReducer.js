@@ -13,64 +13,91 @@ const initialState = {
 function widgetsReducer(state = initialState, action) {
   console.log(state);
   console.log(action);
+  const payload = action.payload;
+
   switch(action.type) {
-    case WidgetsActionTypes.WIDGETS_RESET:
+    case WidgetsActionTypes.WIDGETS_RESET: {
       return initialState;
-    case WidgetsActionTypes.WIDGETS_REFRESH:
+    }
+    case WidgetsActionTypes.WIDGETS_REFRESH: {
       return Object.assign({}, initialState, {
-        active: action.payload
+        active: payload
       });
-    case WidgetsActionTypes.WIDGETS_ADD:
-      const newWidget = Object.assign({}, action.payload, {
-        id: state.nextTempId
-      });
+    }
+    case WidgetsActionTypes.WIDGETS_ADD: {
       return Object.assign({}, state, {
         nextTempId: state.nextTempId - 1,
-        toAdd: [...state.toAdd, newWidget]
+        toAdd: [
+          ...state.toAdd,
+          Object.assign({}, payload, {
+            id: state.nextTempId
+          })
+        ]
       });
-    case WidgetsActionTypes.WIDGETS_DELETE:
-      const deletedFromActive =
-        state.active.find(w => w.id === action.payload);
+    }
+    case WidgetsActionTypes.WIDGETS_DELETE: {
+      const notMatchPayload = widget => widget.id !== payload.id;
+      const shiftSuccessorsDown =
+        widget =>
+          widget.position > payload.position
+            ? Object.assign({}, widget, {
+                position: widget.position - 1
+              })
+            : widget;
+      const active =
+        state.active.filter(notMatchPayload).map(shiftSuccessorsDown);
+      const toAdd =
+        state.toAdd.filter(notMatchPayload).map(shiftSuccessorsDown);
+      const oldActiveWidget =
+        state.active.find(widget => widget.id === payload.id);
+      const toDelete =
+        oldActiveWidget
+          ? [...state.toDelete, payload]
+          : state.toDelete;
+
       return Object.assign({}, state, {
-        active: state.active.filter(w => w.id !== action.payload),
-        toAdd: state.toAdd.filter(w => w.id !== action.payload),
-        toDelete:
-          deletedFromActive
-            ? [...state.toDelete, action.payload]
-            : state.toDelete
+        active: active,
+        toAdd: toAdd,
+        toDelete: toDelete
       });
-    case WidgetsActionTypes.WIDGETS_UPDATE:
-      const inActive =
-        state.active.find(w => w.id === action.payload.id);
+    }
+    case WidgetsActionTypes.WIDGETS_UPDATE: {
+      const oldActiveWidget =
+        state.active.find(widget => widget.id === payload.id);
       // Our service backend can't handle type changes. We need to
       // delete the old widget and create a new one with all of its
       // original properties if it already exists in the database.
-      if (inActive && inActive.type !== action.payload.type) {
+      if (oldActiveWidget
+            && oldActiveWidget.type !== payload.type) {
         return Object.assign({}, state, {
           active: state.active.filter(
-            w => w.id !== action.payload.id),
-          toDelete: [...state.toDelete, action.payload.id],
-          toAdd: [...state.toAdd, action.payload]
+            widget => widget.id !== payload.id),
+          toDelete: [...state.toDelete, payload],
+          toAdd: [...state.toAdd, payload]
         });
       }
 
       // Else we can just replace the widget in place.
+      const replaceOldWidget =
+        widget => widget.id === payload.id ? payload : widget;
       return Object.assign({}, state, {
-        active: state.active.map(
-          w => w.id === action.payload.id ? action.payload : w),
-        toAdd: state.toAdd.map(
-          w => w.id === action.payload.id ? action.payload : w)
+        active: state.active.map(replaceOldWidget),
+        toAdd: state.toAdd.map(replaceOldWidget)
       });
-    case WidgetsActionTypes.WIDGETS_SAVING:
+    }
+    case WidgetsActionTypes.WIDGETS_SAVING: {
       return Object.assign({}, state, {
         saving: true
       });
-    case WidgetsActionTypes.WIDGETS_TOGGLE_PREVIEW:
+    }
+    case WidgetsActionTypes.WIDGETS_TOGGLE_PREVIEW: {
       return Object.assign({}, state, {
         preview: !state.preview
       });
-    default:
+    }
+    default: {
       return state;
+    }
   }
 }
 

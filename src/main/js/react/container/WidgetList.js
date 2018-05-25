@@ -46,7 +46,7 @@ function mapDispatchToProps(dispatch) {
     widgetsAdd:
       widget => dispatch(WidgetsActions.widgetsAdd(widget)),
     widgetsDelete:
-      widgetId => dispatch(WidgetsActions.widgetsDelete(widgetId)),
+      widget => dispatch(WidgetsActions.widgetsDelete(widget)),
     widgetsUpdate:
       widget => dispatch(WidgetsActions.widgetsUpdate(widget)),
     widgetsSaving:
@@ -92,8 +92,8 @@ class WidgetList extends React.Component {
     this.props.widgetsAdd(defaultWidget);
   }
 
-  removeWidget(widgetId) {
-    this.props.widgetsDelete(widgetId);
+  removeWidget(widget) {
+    this.props.widgetsDelete(widget);
   }
 
   updateWidget(widget) {
@@ -107,9 +107,11 @@ class WidgetList extends React.Component {
       this.props.widgets.toAdd.map(
         widget => widgetService.create(this.props.lessonId, widget));
     const toDeletePromises =
-      this.props.widgets.toDelete.map(widget => widgetService.remove(widget));
+      this.props.widgets.toDelete.map(
+        widget => widgetService.remove(widget.id));
     const toUpdatePromises =
-      this.props.widgets.active.map(widget => widgetService.update(widget.id, widget));
+      this.props.widgets.active.map(
+        widget => widgetService.update(widget.id, widget));
     const allPromises = [
       ...toAddPromises,
       ...toDeletePromises,
