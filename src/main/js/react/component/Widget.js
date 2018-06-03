@@ -197,7 +197,11 @@ class Widget extends React.Component {
         );
       }
       default: {
-        return null;
+        return (
+          <Typography>
+            Editing {widget.type} specific data is not supported by the web interface.
+          </Typography>
+        );
       }
     }
   }
@@ -253,7 +257,11 @@ class Widget extends React.Component {
         }
       }
       default: {
-        return null;
+        return (
+          <Typography>
+            Previewing {widget.type} is not supported by the web interface.
+          </Typography>
+        );
       }
     }
   }
