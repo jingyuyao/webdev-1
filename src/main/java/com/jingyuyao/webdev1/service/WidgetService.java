@@ -67,7 +67,7 @@ public class WidgetService {
     if (widgetRepository.existsById(id)) {
       widgetRepository.deleteById(id);
     } else {
-      throw new NotFoundException("Lesson", id);
+      throw new NotFoundException("Widget", id);
     }
   }
 

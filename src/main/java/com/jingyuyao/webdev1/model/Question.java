@@ -73,6 +73,10 @@ public abstract class Question {
     return exam;
   }
 
+  public void setExam(Exam exam) {
+    this.exam = exam;
+  }
+
   public <T extends Question> void update(T question) {
     if (!getClass().equals(question.getClass())) {
       throw new IllegalArgumentException("Can only update from object of the same class");
