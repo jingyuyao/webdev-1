@@ -3,6 +3,7 @@ package com.jingyuyao.webdev1.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,7 +20,10 @@ import javax.persistence.ManyToOne;
     property = "type"
 )
 @JsonSubTypes({
-
+    @Type(value = ChoiceQuestion.class),
+    @Type(value = FillInQuestion.class),
+    @Type(value = EssayQuestion.class),
+    @Type(value = BooleanQuestion.class),
 })
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
