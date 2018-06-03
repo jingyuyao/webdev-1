@@ -25,6 +25,7 @@ import javax.persistence.ManyToOne;
     @Type(value = List.class),
     @Type(value = Image.class),
     @Type(value = Link.class),
+    @Type(value = Assignment.class),
 })
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
